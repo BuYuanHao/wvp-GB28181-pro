@@ -192,7 +192,7 @@ public class DeviceQuery {
 	@Parameter(name = "channelId", description = "通道的数据库ID", required = true)
 	@Parameter(name = "audio", description = "开启/关闭音频", required = true)
 	@PostMapping("/channel/audio")
-	public void changeAudio(Integer channelId, Boolean audio){
+	public void changeAudio(Long channelId, Boolean audio){
 		Assert.notNull(channelId, "通道的数据库ID不可为NULL");
 		Assert.notNull(audio, "开启/关闭音频不可为NULL");
 		deviceChannelService.changeAudio(channelId, audio);

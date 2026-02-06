@@ -66,7 +66,7 @@ public class ChannelController {
     @Operation(summary = "查询通道信息", security = @SecurityRequirement(name = JwtUtils.HEADER))
     @Parameter(name = "id", description = "通道的数据库自增Id", required = true)
     @GetMapping(value = "/one")
-    public CommonGBChannel getOne(int id){
+    public CommonGBChannel getOne(long id){
         return channelService.getOne(id);
     }
 
@@ -303,7 +303,7 @@ public class ChannelController {
 
     @Operation(summary = "播放通道", security = @SecurityRequirement(name = JwtUtils.HEADER))
     @GetMapping("/play")
-    public DeferredResult<WVPResult<StreamContent>> play(HttpServletRequest request,  Integer channelId){
+    public DeferredResult<WVPResult<StreamContent>> play(HttpServletRequest request,  Long channelId){
         Assert.notNull(channelId,"参数异常");
         CommonGBChannel channel = channelService.getOne(channelId);
         Assert.notNull(channel, "通道不存在");
@@ -345,7 +345,7 @@ public class ChannelController {
 
     @Operation(summary = "停止播放通道", security = @SecurityRequirement(name = JwtUtils.HEADER))
     @GetMapping("/play/stop")
-    public void stopPlay(Integer channelId){
+    public void stopPlay(Long channelId){
         Assert.notNull(channelId,"参数异常");
         CommonGBChannel channel = channelService.getOne(channelId);
         Assert.notNull(channel, "通道不存在");
@@ -357,7 +357,7 @@ public class ChannelController {
     @Parameter(name = "startTime", description = "开始时间", required = true)
     @Parameter(name = "endTime", description = "结束时间", required = true)
     @GetMapping("/playback/query")
-    public DeferredResult<WVPResult<List<CommonRecordInfo>>> queryRecord(Integer channelId, String startTime, String endTime){
+    public DeferredResult<WVPResult<List<CommonRecordInfo>>> queryRecord(Long channelId, String startTime, String endTime){
 
         DeferredResult<WVPResult<List<CommonRecordInfo>>> result = new DeferredResult<>(Long.valueOf(userSetting.getRecordInfoTimeout()), TimeUnit.MILLISECONDS);
         if (!DateUtil.verification(startTime, DateUtil.formatter)){
@@ -390,7 +390,7 @@ public class ChannelController {
     @Parameter(name = "startTime", description = "开始时间", required = true)
     @Parameter(name = "endTime", description = "结束时间", required = true)
     @GetMapping("/playback")
-    public DeferredResult<WVPResult<StreamContent>> playback(HttpServletRequest request, Integer channelId, String startTime, String endTime){
+    public DeferredResult<WVPResult<StreamContent>> playback(HttpServletRequest request, Long channelId, String startTime, String endTime){
         Assert.notNull(channelId,"参数异常");
         CommonGBChannel channel = channelService.getOne(channelId);
         Assert.notNull(channel, "通道不存在");
@@ -436,7 +436,7 @@ public class ChannelController {
     @Parameter(name = "channelId", description = "通道ID", required = true)
     @Parameter(name = "stream", description = "流ID", required = true)
     @GetMapping("/playback/stop")
-    public void stopPlayback(Integer channelId, String stream){
+    public void stopPlayback(Long channelId, String stream){
         Assert.notNull(channelId,"参数异常");
         CommonGBChannel channel = channelService.getOne(channelId);
         Assert.notNull(channel, "通道不存在");
@@ -447,7 +447,7 @@ public class ChannelController {
     @Parameter(name = "channelId", description = "通道ID", required = true)
     @Parameter(name = "stream", description = "流ID", required = true)
     @GetMapping("/playback/pause")
-    public void pausePlayback(Integer channelId, String stream){
+    public void pausePlayback(Long channelId, String stream){
         Assert.notNull(channelId,"参数异常");
         CommonGBChannel channel = channelService.getOne(channelId);
         Assert.notNull(channel, "通道不存在");
@@ -458,7 +458,7 @@ public class ChannelController {
     @Parameter(name = "channelId", description = "通道ID", required = true)
     @Parameter(name = "stream", description = "流ID", required = true)
     @GetMapping("/playback/resume")
-    public void resumePlayback(Integer channelId, String stream){
+    public void resumePlayback(Long channelId, String stream){
         Assert.notNull(channelId,"参数异常");
         CommonGBChannel channel = channelService.getOne(channelId);
         Assert.notNull(channel, "通道不存在");
@@ -470,7 +470,7 @@ public class ChannelController {
     @Parameter(name = "stream", description = "流ID", required = true)
     @Parameter(name = "seekTime", description = "将要播放的时间", required = true)
     @GetMapping("/playback/seek")
-    public void seekPlayback(Integer channelId, String stream, Long seekTime){
+    public void seekPlayback(Long channelId, String stream, Long seekTime){
         Assert.notNull(channelId,"参数异常");
         Assert.notNull(seekTime,"参数异常");
         CommonGBChannel channel = channelService.getOne(channelId);
@@ -483,7 +483,7 @@ public class ChannelController {
     @Parameter(name = "stream", description = "流ID", required = true)
     @Parameter(name = "speed", description = "倍速", required = true)
     @GetMapping("/playback/speed")
-    public void seekPlayback(Integer channelId, String stream, Double speed){
+    public void seekPlayback(Long channelId, String stream, Double speed){
         Assert.notNull(channelId,"参数异常");
         Assert.notNull(speed,"参数异常");
         CommonGBChannel channel = channelService.getOne(channelId);

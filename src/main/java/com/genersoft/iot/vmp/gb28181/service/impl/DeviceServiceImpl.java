@@ -865,12 +865,12 @@ public class DeviceServiceImpl implements IDeviceService, CommandLineRunner {
     }
 
     @Override
-    public Device getDevice(Integer id) {
+    public Device getDevice(Long id) {
         return deviceMapper.query(id);
     }
 
     @Override
-    public Device getDeviceByChannelId(Integer channelId) {
+    public Device getDeviceByChannelId(Long channelId) {
         return deviceMapper.queryByChannelId(ChannelDataType.GB28181,channelId);
     }
 
@@ -880,7 +880,7 @@ public class DeviceServiceImpl implements IDeviceService, CommandLineRunner {
     }
 
     @Override
-    public void subscribeCatalog(int id, int cycle) {
+    public void subscribeCatalog(long id, int cycle) {
         Device device = deviceMapper.query(id);
         Assert.notNull(device, "未找到设备");
         Assert.isTrue(device.isOnLine(), "设备已离线");
@@ -911,7 +911,7 @@ public class DeviceServiceImpl implements IDeviceService, CommandLineRunner {
     }
 
     @Override
-    public void subscribeMobilePosition(int id, int cycle, int interval) {
+    public void subscribeMobilePosition(long id, int cycle, int interval) {
         Device device = deviceMapper.query(id);
         Assert.notNull(device, "未找到设备");
         if (!device.isOnLine()) {

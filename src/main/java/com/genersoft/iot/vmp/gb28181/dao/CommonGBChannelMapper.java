@@ -109,10 +109,10 @@ public interface CommonGBChannelMapper {
     int insert(CommonGBChannel commonGBChannel);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryById")
-    CommonGBChannel queryById(@Param("gbId") int gbId);
+    CommonGBChannel queryById(@Param("gbId") long gbId);
 
     @Delete(value = {"delete from wvp_device_channel where id = #{gbId} "})
-    void delete(int gbId);
+    void delete(long gbId);
 
     @Update(value = {" <script>" +
             "UPDATE wvp_device_channel " +
@@ -160,7 +160,7 @@ public interface CommonGBChannelMapper {
             " SET gb_status = #{status}" +
             " WHERE id = #{gbId}"+
             " </script>"})
-    int updateStatusById(@Param("gbId") int gbId, @Param("status") String status);
+    int updateStatusById(@Param("gbId") long gbId, @Param("status") String status);
 
     @Update("<script> " +
             "<foreach collection='commonGBChannels' index='index' item='item' separator=';'> " +
@@ -242,11 +242,11 @@ public interface CommonGBChannelMapper {
             "</foreach> " +
             " WHERE id = #{id}"+
             " </script>"})
-    void reset(@Param("id") int id, List<String> fields, @Param("updateTime") String updateTime);
+    void reset(@Param("id") long id, List<String> fields, @Param("updateTime") String updateTime);
 
 
     @SelectProvider(type = ChannelProvider.class, method = "queryByIds")
-    List<CommonGBChannel> queryByIds(Collection<Integer> ids);
+    List<CommonGBChannel> queryByIds(Collection<Long> ids);
 
     @Delete(value = {" <script>" +
             " delete from wvp_device_channel" +
@@ -316,13 +316,13 @@ public interface CommonGBChannelMapper {
             " WHERE id in "+
             " <foreach collection='channelIdList'  item='item'  open='(' separator=',' close=')' > #{item}</foreach>" +
             " </script>"})
-    int removeCivilCodeByChannelIds(List<Integer> channelIdList);
+    int removeCivilCodeByChannelIds(List<Long> channelIdList);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryByCivilCode")
     List<CommonGBChannel> queryByCivilCode(@Param("civilCode") String civilCode);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryByDataTypeAndDeviceIds")
-    List<CommonGBChannel> queryByDataTypeAndDeviceIds(@Param("dataType") Integer dataType, List<Integer> deviceIds);
+    List<CommonGBChannel> queryByDataTypeAndDeviceIds(@Param("dataType") Integer dataType, List<Long> deviceIds);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryByGbDeviceIds")
     List<CommonGBChannel> queryByGbDeviceIds(List<String> deviceIds);
@@ -332,7 +332,7 @@ public interface CommonGBChannelMapper {
             " where channel_type = 0 and data_type = #{dataType} and data_device_id in  "+
             " <foreach collection='deviceIds'  item='item'  open='(' separator=',' close=')' > #{item}</foreach>" +
             " </script>"})
-    List<Integer> queryByGbDeviceIdsForIds(@Param("dataType") Integer dataType, List<Integer> deviceIds);
+    List<Long> queryByGbDeviceIdsForIds(@Param("dataType") Integer dataType, List<Integer> deviceIds);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryByGroupList")
     List<CommonGBChannel> queryByGroupList(List<Group> groupList);
@@ -565,19 +565,19 @@ public interface CommonGBChannelMapper {
                                                        @Param("hasLink") Boolean hasLink);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryByDataId")
-    CommonGBChannel queryByDataId(@Param("dataType") Integer dataType, @Param("dataDeviceId") Integer dataDeviceId);
+    CommonGBChannel queryByDataId(@Param("dataType") Integer dataType, @Param("dataDeviceId") Long dataDeviceId);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryListByCivilCodeForUnusual")
     List<CommonGBChannel> queryListByCivilCodeForUnusual(@Param("query") String query, @Param("online") Boolean online, @Param("dataType")Integer dataType);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryAllForUnusualCivilCode")
-    List<Integer> queryAllForUnusualCivilCode();
+    List<Long> queryAllForUnusualCivilCode();
 
     @SelectProvider(type = ChannelProvider.class, method = "queryListByParentForUnusual")
     List<CommonGBChannel> queryListByParentForUnusual(@Param("query") String query, @Param("online") Boolean online, @Param("dataType")Integer dataType);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryAllForUnusualParent")
-    List<Integer> queryAllForUnusualParent();
+    List<Long> queryAllForUnusualParent();
 
     @Update(value = {" <script>" +
             " UPDATE wvp_device_channel " +
@@ -585,17 +585,17 @@ public interface CommonGBChannelMapper {
             " WHERE id in "+
             " <foreach collection='channelIdsForClear'  item='item'  open='(' separator=',' close=')' > #{item}</foreach>" +
             " </script>"})
-    void removeParentIdByChannelIds(List<Integer> channelIdsForClear);
+    void removeParentIdByChannelIds(List<Long> channelIdsForClear);
 
 
     @SelectProvider(type = ChannelProvider.class, method = "queryOnlineListsByGbDeviceId")
-    List<CommonGBChannel> queryOnlineListsByGbDeviceId(@Param("deviceId") int deviceId);
+    List<CommonGBChannel> queryOnlineListsByGbDeviceId(@Param("deviceId") long deviceId);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryCommonChannelByDeviceChannel")
-    CommonGBChannel queryCommonChannelByDeviceChannel(@Param("dataType") Integer dataType, @Param("dataDeviceId") Integer dataDeviceId, @Param("deviceId") String deviceId);
+    CommonGBChannel queryCommonChannelByDeviceChannel(@Param("dataType") Integer dataType, @Param("dataDeviceId") Long dataDeviceId, @Param("deviceId") String deviceId);
 
     @Update("UPDATE wvp_device_channel SET stream_id = #{stream} where id = #{gbId}")
-    void updateStream(int gbId, String stream);
+    void updateStream(long gbId, String stream);
 
     @Update("<script> " +
             "<foreach collection='commonGBChannels' index='index' item='item' separator=';'> " +
@@ -650,7 +650,7 @@ public interface CommonGBChannelMapper {
     List<CameraChannel> queryListForSyMobile(@Param("business") String business);
 
     @SelectProvider(type = ChannelProvider.class, method = "queryCameraChannelById")
-    CameraChannel queryCameraChannelById(@Param("gbId") Integer id);
+    CameraChannel queryCameraChannelById(@Param("gbId") Long id);
 
     @Update("<script> " +
             "<foreach collection='channels' index='index' item='item' separator=';'> " +

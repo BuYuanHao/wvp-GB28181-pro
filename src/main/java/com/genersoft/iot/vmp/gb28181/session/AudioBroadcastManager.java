@@ -23,14 +23,14 @@ public class AudioBroadcastManager {
     @Autowired
     private SipConfig config;
 
-    public static Map<Integer, AudioBroadcastCatch> data = new ConcurrentHashMap<>();
+    public static Map<Long, AudioBroadcastCatch> data = new ConcurrentHashMap<>();
 
 
     public void update(AudioBroadcastCatch audioBroadcastCatch) {
         data.put(audioBroadcastCatch.getChannelId(), audioBroadcastCatch);
     }
 
-    public void del(Integer channelId) {
+    public void del(Long channelId) {
         data.remove(channelId);
 
     }
@@ -41,11 +41,11 @@ public class AudioBroadcastManager {
     }
 
 
-    public boolean exit(Integer channelId) {
+    public boolean exit(Long channelId) {
         return data.containsKey(channelId);
     }
 
-    public AudioBroadcastCatch get(Integer channelId) {
+    public AudioBroadcastCatch get(Long channelId) {
         return data.get(channelId);
     }
 

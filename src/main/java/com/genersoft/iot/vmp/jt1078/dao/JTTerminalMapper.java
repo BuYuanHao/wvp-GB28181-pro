@@ -98,7 +98,7 @@ public interface JTTerminalMapper {
     void updateDeviceStatus(@Param("connected") boolean connected, @Param("phoneNumber") String phoneNumber);
 
     @Select("SELECT * FROM wvp_jt_terminal where id=#{deviceId}")
-    JTDevice getDeviceById(@Param("deviceId") Integer deviceId);
+    JTDevice getDeviceById(@Param("deviceId") Long deviceId);
 
     @Update({"<script>" +
             "<foreach collection='devices' item='item' separator=';'>" +

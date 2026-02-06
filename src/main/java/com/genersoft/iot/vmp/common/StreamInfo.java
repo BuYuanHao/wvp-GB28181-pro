@@ -20,7 +20,7 @@ public class StreamInfo implements Serializable, Cloneable{
     @Schema(description = "设备编号")
     private String deviceId;
     @Schema(description = "通道ID")
-    private Integer channelId;
+    private Long channelId;
 
     @Schema(description = "IP")
     private String ip;

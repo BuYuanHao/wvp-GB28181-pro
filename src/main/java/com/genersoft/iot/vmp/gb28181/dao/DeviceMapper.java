@@ -398,10 +398,10 @@ public interface DeviceMapper {
     DeviceChannel getRawChannel(@Param("id") int id);
 
     @Select("select * from wvp_device where id = #{id}")
-    Device query(@Param("id") Integer id);
+    Device query(@Param("id") Long id);
 
     @Select("select wd.* from wvp_device wd left join wvp_device_channel wdc on wdc.data_type = #{dataType} and wd.id = wdc.data_device_id  where wdc.id = #{channelId}")
-    Device queryByChannelId(@Param("dataType") Integer dataType, @Param("channelId") Integer channelId);
+    Device queryByChannelId(@Param("dataType") Integer dataType, @Param("channelId") Long channelId);
 
     @Select("select wd.* from wvp_device wd left join wvp_device_channel wdc on wdc.data_type = #{dataType} and wd.id = wdc.data_device_id  where wdc.device_id = #{channelDeviceId}")
     Device getDeviceBySourceChannelDeviceId(@Param("dataType") Integer dataType, @Param("channelDeviceId") String channelDeviceId);

@@ -16,7 +16,7 @@ public class AudioBroadcastCatch {
 
     public AudioBroadcastCatch(
             String deviceId,
-            Integer channelId,
+            Long channelId,
             MediaServer mediaServerItem,
             String app,
             String stream,
@@ -45,7 +45,7 @@ public class AudioBroadcastCatch {
     /**
      * 通道编号
      */
-    private Integer channelId;
+    private Long channelId;
 
     /**
      * 流媒体信息

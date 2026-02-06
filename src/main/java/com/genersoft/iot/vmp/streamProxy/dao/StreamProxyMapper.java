@@ -57,7 +57,7 @@ public interface StreamProxyMapper {
     int getOnline();
 
     @Delete("DELETE FROM wvp_stream_proxy WHERE id=#{id}")
-    int delete(@Param("id") int id);
+    int delete(@Param("id") long id);
 
     @Delete(value = "<script>" +
             "DELETE FROM wvp_stream_proxy WHERE id in (" +
@@ -76,16 +76,16 @@ public interface StreamProxyMapper {
     @Update("UPDATE wvp_stream_proxy " +
             "SET pulling=false " +
             "WHERE id=#{id}")
-    int offline(@Param("id") int id);
+    int offline(@Param("id") long id);
 
     @SelectProvider(type = StreamProxyProvider.class, method = "select")
-    StreamProxy select(@Param("id") int id);
+    StreamProxy select(@Param("id") long id);
 
     @Update("UPDATE wvp_stream_proxy " +
             " SET pulling=false, media_server_id = null," +
             " stream_key = null " +
             " WHERE id=#{id}")
-    void removeStream(@Param("id")int id);
+    void removeStream(@Param("id")long id);
 
     @Update("UPDATE wvp_stream_proxy " +
             " SET pulling=#{pulling}, media_server_id = #{mediaServerId}, " +

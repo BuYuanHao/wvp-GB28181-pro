@@ -15,7 +15,7 @@ import lombok.Setter;
 @MsgId(id = "9306")
 public class J9306 extends Rs {
     // 逻辑通道号
-    private int channel;
+    private long channel;
 
     // 0：调大； 1：调小
     private int zoom;
@@ -23,7 +23,7 @@ public class J9306 extends Rs {
     @Override
     public ByteBuf encode() {
         ByteBuf buffer = Unpooled.buffer();
-        buffer.writeByte(channel);
+        buffer.writeLong(channel);
         buffer.writeByte(zoom);
         return buffer;
     }

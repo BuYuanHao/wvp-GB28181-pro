@@ -60,7 +60,7 @@ public class RedisRpcChannelPlayController extends RpcController {
      */
     @RedisRpcMapping("play")
     public RedisRpcResponse playChannel(RedisRpcRequest request) {
-        int channelId = Integer.parseInt(request.getParam().toString());
+        Long channelId = Long.parseLong(request.getParam().toString());
         RedisRpcResponse response = request.getResponse();
 
         if (channelId <= 0) {
@@ -98,7 +98,7 @@ public class RedisRpcChannelPlayController extends RpcController {
     @RedisRpcMapping("queryRecordInfo")
     public RedisRpcResponse queryRecordInfo(RedisRpcRequest request) {
         JSONObject paramJson = JSONObject.parseObject(request.getParam().toString());
-        int channelId = paramJson.getIntValue("channelId");
+        long channelId = paramJson.getLongValue("channelId");
         String startTime = paramJson.getString("startTime");
         String endTime = paramJson.getString("endTime");
         RedisRpcResponse response = request.getResponse();
@@ -195,7 +195,7 @@ public class RedisRpcChannelPlayController extends RpcController {
 
         RedisRpcResponse response = request.getResponse();
 
-        Integer channelId = jsonObject.getIntValue("channelId");
+        Long channelId = jsonObject.getLongValue("channelId");
         if (channelId == null || channelId <= 0) {
             response.setStatusCode(ErrorCode.ERROR400.getCode());
             response.setBody("param error");
@@ -228,7 +228,7 @@ public class RedisRpcChannelPlayController extends RpcController {
     @RedisRpcMapping("playback")
     public RedisRpcResponse playbackChannel(RedisRpcRequest request) {
         JSONObject paramJson = JSONObject.parseObject(request.getParam().toString());
-        int channelId = paramJson.getIntValue("channelId");
+        long channelId = paramJson.getLongValue("channelId");
         String startTime = paramJson.getString("startTime");
         String endTime = paramJson.getString("endTime");
         RedisRpcResponse response = request.getResponse();
@@ -269,7 +269,7 @@ public class RedisRpcChannelPlayController extends RpcController {
     @RedisRpcMapping("download")
     public RedisRpcResponse downloadChannel(RedisRpcRequest request) {
         JSONObject paramJson = JSONObject.parseObject(request.getParam().toString());
-        int channelId = paramJson.getIntValue("channelId");
+        long channelId = paramJson.getLongValue("channelId");
         String startTime = paramJson.getString("startTime");
         String endTime = paramJson.getString("endTime");
         int downloadSpeed = paramJson.getIntValue("downloadSpeed");
@@ -312,7 +312,7 @@ public class RedisRpcChannelPlayController extends RpcController {
     @RedisRpcMapping("ptz/frontEndCommand")
     public RedisRpcResponse frontEndCommand(RedisRpcRequest request) {
         JSONObject paramJson = JSONObject.parseObject(request.getParam().toString());
-        int channelId = paramJson.getIntValue("channelId");
+        long channelId = paramJson.getLongValue("channelId");
         int cmdCode = paramJson.getIntValue("cmdCode");
         int parameter1 = paramJson.getIntValue("parameter1");
         int parameter2 = paramJson.getIntValue("parameter2");

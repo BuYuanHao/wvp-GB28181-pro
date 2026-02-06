@@ -46,7 +46,7 @@ public class SendRtpInfo {
    /**
      * 通道id
      */
-    private Integer channelId;
+    private Long channelId;
 
     /**
      * 推流状态
@@ -177,7 +177,7 @@ public class SendRtpInfo {
     }
 
     public static SendRtpInfo getInstance(Integer localPort, MediaServer mediaServer, String ip, Integer port, String ssrc,
-                                          String deviceId, String platformId, Integer channelId, Boolean isTcp, Boolean rtcp,
+                                          String deviceId, String platformId, Long channelId, Boolean isTcp, Boolean rtcp,
                                           String serverId) {
         if (localPort == 0) {
             return null;

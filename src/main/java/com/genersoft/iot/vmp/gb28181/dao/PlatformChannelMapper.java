@@ -49,7 +49,7 @@ public interface PlatformChannelMapper {
             " AND wp.server_gb_id in " +
             "<foreach collection='platforms' item='item'  open='(' separator=',' close=')' > #{item}</foreach>" +
             "</script> ")
-    List<Platform> queryPlatFormListForGBWithGBId(@Param("channelId") Integer channelId, List<String> platforms);
+    List<Platform> queryPlatFormListForGBWithGBId(@Param("channelId") Long channelId, List<String> platforms);
 
     @Select("select dc.channel_id, dc.device_id,dc.name,d.manufacturer,d.model,d.firmware\n" +
             "from wvp_platform_channel pgc\n" +
@@ -253,7 +253,7 @@ public interface PlatformChannelMapper {
             "<foreach item='item' index='index' collection='channelIds' open='(' separator=',' close=')'> #{item} </foreach> " +
             "</if>" +
             "</script>")
-    List<CommonGBChannel> queryNotShare(@Param("platformId") Integer platformId, List<Integer> channelIds);
+    List<CommonGBChannel> queryNotShare(@Param("platformId") Integer platformId, List<Long> channelIds);
 
     @Select("<script>" +
             " select " +
@@ -310,7 +310,7 @@ public interface PlatformChannelMapper {
             "</if>" +
             " order by wdc.id" +
             "</script>")
-    List<CommonGBChannel> queryShare(@Param("platformId") Integer platformId, List<Integer> channelIds);
+    List<CommonGBChannel> queryShare(@Param("platformId") Integer platformId, List<Long> channelIds);
 
     @Delete("<script> " +
             "DELETE from wvp_platform_channel WHERE platform_id=#{platformId} " +
@@ -411,7 +411,7 @@ public interface PlatformChannelMapper {
             "  pgc.device_channel_id IN" +
             "<foreach collection='ids' item='item'  open='(' separator=',' close=')' > #{item}</foreach>" +
             "</script> ")
-    List<Platform> queryPlatFormListByChannelList(Collection<Integer> ids);
+    List<Platform> queryPlatFormListByChannelList(Collection<Long> ids);
 
     @Select("<script> " +
             " SELECT " +
@@ -425,7 +425,7 @@ public interface PlatformChannelMapper {
             " WHERE " +
             "  pgc.device_channel_id = #{channelId}" +
             "</script> ")
-    List<Platform> queryPlatFormListByChannelId(@Param("channelId") int channelId);
+    List<Platform> queryPlatFormListByChannelId(@Param("channelId") Long channelId);
 
     @Delete("<script> "+
             "DELETE from wvp_platform_channel WHERE platform_id=#{platformId}" +
@@ -528,7 +528,7 @@ public interface PlatformChannelMapper {
             " left join wvp_platform_channel wpgc on wdc.id = wpgc.device_channel_id" +
             " where wdc.channel_type = 0 and wpgc.platform_id = #{platformId} and wdc.id = #{gbId}" +
             "</script>")
-    CommonGBChannel queryShareChannel(@Param("platformId") int platformId, @Param("gbId") int gbId);
+    CommonGBChannel queryShareChannel(@Param("platformId") int platformId, @Param("gbId") Long gbId);
 
 
     @Select(" <script>" +

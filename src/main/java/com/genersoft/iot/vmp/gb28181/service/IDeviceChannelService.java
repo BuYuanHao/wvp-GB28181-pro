@@ -44,9 +44,9 @@ public interface IDeviceChannelService {
 
     void updateChannelGPS(Device device, DeviceChannel deviceChannel, MobilePosition mobilePosition);
 
-    void startPlay(Integer channelId, String stream);
+    void startPlay(Long channelId, String stream);
 
-    void stopPlay(Integer channelId);
+    void stopPlay(Long channelId);
 
     void online(DeviceChannel channel);
 
@@ -54,11 +54,11 @@ public interface IDeviceChannelService {
 
     void deleteForNotify(DeviceChannel channel);
 
-    void cleanChannelsForDevice(int deviceId);
+    void cleanChannelsForDevice(long deviceId);
 
-    boolean resetChannels(int deviceDbId, List<DeviceChannel> deviceChannels);
+    boolean resetChannels(long deviceDbId, List<DeviceChannel> deviceChannels);
 
-    PageInfo<DeviceChannel> getSubChannels(int deviceDbId, String channelId, String query, Boolean channelType, Boolean online, int page, int count);
+    PageInfo<DeviceChannel> getSubChannels(long deviceDbId, String channelId, String query, Boolean channelType, Boolean online, int page, int count);
 
     List<DeviceChannelExtend> queryChannelExtendsByDeviceId(String deviceId, List<String> channelIds, Boolean online);
 
@@ -70,13 +70,13 @@ public interface IDeviceChannelService {
 
     DeviceChannel getRawChannel(int id);
 
-    DeviceChannel getOneById(Integer channelId);
+    DeviceChannel getOneById(Long channelId);
 
-    DeviceChannel getOneForSourceById(Integer channelId);
+    DeviceChannel getOneForSourceById(Long channelId);
 
-    DeviceChannel getBroadcastChannel(int deviceDbId);
+    DeviceChannel getBroadcastChannel(long deviceDbId);
 
-    void changeAudio(Integer channelId, Boolean audio);
+    void changeAudio(Long channelId, Boolean audio);
 
     void updateChannelStatusForNotify(DeviceChannel channel);
 
@@ -84,13 +84,13 @@ public interface IDeviceChannelService {
 
     void updateChannelForNotify(DeviceChannel channel);
 
-    DeviceChannel getOneForSource(int deviceDbId, String channelId);
+    DeviceChannel getOneForSource(long deviceDbId, String channelId);
 
-    DeviceChannel getOneBySourceId(int deviceDbId, String channelId);
+    DeviceChannel getOneBySourceId(long deviceDbId, String channelId);
 
     List<Integer> queryChaneIdListByDeviceDbIds(List<Integer> deviceDbId);
 
-    void handlePtzCmd(@NotNull Integer dataDeviceId, @NotNull Integer gbId, Element rootElement, DeviceControlType type, ErrorCallback<String> callback);
+    void handlePtzCmd(@NotNull Long dataDeviceId, @NotNull Long gbId, Element rootElement, DeviceControlType type, ErrorCallback<String> callback);
 
     void queryRecordInfo(Device device, DeviceChannel channel, String startTime, String endTime, ErrorCallback<RecordInfo> object);
 

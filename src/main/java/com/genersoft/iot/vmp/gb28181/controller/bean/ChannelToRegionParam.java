@@ -13,7 +13,7 @@ public class ChannelToRegionParam {
     private String civilCode;
 
     @Schema(description = "选择的通道， 和all参数二选一")
-    private List<Integer> channelIds;
+    private List<Long> channelIds;
 
     @Schema(description = "所有通道， 和channelIds参数二选一")
     private Boolean all;

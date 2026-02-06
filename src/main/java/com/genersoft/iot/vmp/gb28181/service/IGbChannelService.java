@@ -16,9 +16,9 @@ public interface IGbChannelService {
 
     int add(CommonGBChannel commonGBChannel);
 
-    int delete(int gbId);
+    int delete(long gbId);
 
-    void delete(Collection<Integer> ids);
+    void delete(Collection<Long> ids);
 
     int update(CommonGBChannel commonGBChannel);
 
@@ -34,7 +34,7 @@ public interface IGbChannelService {
 
     void updateStatus(List<CommonGBChannel> channelList);
 
-    CommonGBChannel getOne(int id);
+    CommonGBChannel getOne(Long id);
 
     List<IndustryCodeType> getIndustryCodeList();
 
@@ -42,7 +42,7 @@ public interface IGbChannelService {
 
     List<NetworkIdentificationType> getNetworkIdentificationTypeList();
 
-    void reset(int id, List<String> chanelFields);
+    void reset(long id, List<String> chanelFields);
 
     PageInfo<CommonGBChannel> queryListByCivilCode(int page, int count, String query, Boolean online, Integer channelType, String civilCode);
 
@@ -50,17 +50,17 @@ public interface IGbChannelService {
 
     void removeCivilCode(List<Region> allChildren);
 
-    void addChannelToRegion(String civilCode, List<Integer> channelIds);
+    void addChannelToRegion(String civilCode, List<Long> channelIds);
 
-    void deleteChannelToRegion(String civilCode, List<Integer> channelIds);
+    void deleteChannelToRegion(String civilCode, List<Long> channelIds);
 
     void deleteChannelToRegionByCivilCode(String civilCode);
 
-    void deleteChannelToRegionByChannelIds(List<Integer> channelIds);
+    void deleteChannelToRegionByChannelIds(List<Long> channelIds);
 
-    void addChannelToRegionByGbDevice(String civilCode, List<Integer> deviceIds);
+    void addChannelToRegionByGbDevice(String civilCode, List<Long> deviceIds);
 
-    void deleteChannelToRegionByGbDevice(List<Integer> deviceIds);
+    void deleteChannelToRegionByGbDevice(List<Long> deviceIds);
 
     void removeParentIdByBusinessGroup(String businessGroup);
 
@@ -70,13 +70,13 @@ public interface IGbChannelService {
 
     void updateParentIdGroup(String oldParentId, String newParentId);
 
-    void addChannelToGroup(String parentId, String businessGroup, List<Integer> channelIds);
+    void addChannelToGroup(String parentId, String businessGroup, List<Long> channelIds);
 
-    void deleteChannelToGroup(String parentId, String businessGroup, List<Integer> channelIds);
+    void deleteChannelToGroup(String parentId, String businessGroup, List<Long> channelIds);
 
-    void addChannelToGroupByGbDevice(String parentId, String businessGroup, List<Integer> deviceIds);
+    void addChannelToGroupByGbDevice(String parentId, String businessGroup, List<Long> deviceIds);
 
-    void deleteChannelToGroupByGbDevice(List<Integer> deviceIds);
+    void deleteChannelToGroupByGbDevice(List<Long> deviceIds);
 
     void batchUpdateForStreamPushRedisMsg(List<CommonGBChannel> commonGBChannels, boolean permission);
 
@@ -90,11 +90,11 @@ public interface IGbChannelService {
 
     PageInfo<CommonGBChannel> queryListByCivilCodeForUnusual(int page, int count, String query, Boolean online, Integer channelType);
 
-    void clearChannelCivilCode(Boolean all, List<Integer> channelIds);
+    void clearChannelCivilCode(Boolean all, List<Long> channelIds);
 
     PageInfo<CommonGBChannel> queryListByParentForUnusual(int page, int count, String query, Boolean online, Integer channelType);
 
-    void clearChannelParent(Boolean all, List<Integer> channelIds);
+    void clearChannelParent(Boolean all, List<Long> channelIds);
 
     void updateGPSFromGPSMsgInfo(List<GPSMsgInfo> gpsMsgInfoList);
 

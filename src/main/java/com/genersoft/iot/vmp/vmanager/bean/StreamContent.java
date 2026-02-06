@@ -15,7 +15,10 @@ public class StreamContent {
 
     @Schema(description = "流ID")
     private String stream;
-
+    @Schema(description = "设备编号")
+    private String deviceId;
+    @Schema(description = "通道ID")
+    private String channelId;
     @Schema(description = "IP")
     private String ip;
 
@@ -120,6 +123,8 @@ public class StreamContent {
         }
         this.app = streamInfo.getApp();
         this.stream = streamInfo.getStream();
+        this.deviceId = streamInfo.getDeviceId();
+        this.channelId = streamInfo.getStream().split("_")[1];
         if (streamInfo.getFlv() != null) {
             this.flv = streamInfo.getFlv().getUrl();
         }

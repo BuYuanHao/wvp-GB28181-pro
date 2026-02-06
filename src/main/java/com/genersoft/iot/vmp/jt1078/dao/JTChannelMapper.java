@@ -10,7 +10,7 @@ import java.util.List;
 public interface JTChannelMapper {
 
     @SelectProvider(type = JTChannelProvider.class, method = "selectAll")
-    List<JTChannel> selectAll(@Param("terminalDbId") int terminalDbId, @Param("query") String query);
+    List<JTChannel> selectAll(@Param("terminalDbId") long terminalDbId, @Param("query") String query);
 
     @Update(value = {" <script>" +
             "UPDATE wvp_jt_channel " +
@@ -40,11 +40,11 @@ public interface JTChannelMapper {
     void add(JTChannel channel);
 
     @Delete("delete from wvp_jt_channel where id = #{id}")
-    void delete(@Param("id") int id);
+    void delete(@Param("id") long id);
 
     @SelectProvider(type = JTChannelProvider.class, method = "selectChannelByChannelId")
-    JTChannel selectChannelByChannelId(@Param("terminalDbId") int terminalDbId, @Param("channelId") Integer channelId);
+    JTChannel selectChannelByChannelId(@Param("terminalDbId") long terminalDbId, @Param("channelId") Long channelId);
 
     @SelectProvider(type = JTChannelProvider.class, method = "selectChannelById")
-    JTChannel selectChannelById(@Param("id") Integer id);
+    JTChannel selectChannelById(@Param("id") Long id);
 }

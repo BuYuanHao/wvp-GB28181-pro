@@ -15,7 +15,7 @@ public interface Ijt1078Service {
 
     JTDevice getDevice(String phoneNumber);
 
-    JTChannel getChannel(Integer terminalDbId, Integer channelId);
+    JTChannel getChannel(Integer terminalDbId, Long channelId);
 
     void updateDevice(JTDevice deviceInDb);
 
@@ -28,11 +28,11 @@ public interface Ijt1078Service {
     void updateDeviceStatus(boolean connected, String phoneNumber);
 
 
-    void ptzControl(String phoneNumber, Integer channelId, String command, int speed);
+    void ptzControl(String phoneNumber, Long channelId, String command, int speed);
 
-    void supplementaryLight(String phoneNumber, Integer channelId, String command);
+    void supplementaryLight(String phoneNumber, Long channelId, String command);
 
-    void wiper(String phoneNumber, Integer channelId, String command);
+    void wiper(String phoneNumber, Long channelId, String command);
 
     JTDeviceConfig queryConfig(String phoneNumber, String[] params);
 
@@ -100,29 +100,29 @@ public interface Ijt1078Service {
 
     JTMediaAttribute queryMediaAttribute(String phoneNumber);
 
-    void changeStreamType(String phoneNumber, Integer channelId, Integer streamType);
+    void changeStreamType(String phoneNumber, Long channelId, Integer streamType);
 
-    void recordDownload(String phoneNumber, Integer channelId, String startTime, String endTime, Integer alarmSign, Integer mediaType, Integer streamType, Integer storageType, OutputStream outputStream, CommonCallback<WVPResult<String>> fileCallback);
+    void recordDownload(String phoneNumber, Long channelId, String startTime, String endTime, Integer alarmSign, Integer mediaType, Integer streamType, Integer storageType, OutputStream outputStream, CommonCallback<WVPResult<String>> fileCallback);
 
-    PageInfo<JTChannel> getChannelList(int page, int count, int deviceId, String query);
+    PageInfo<JTChannel> getChannelList(int page, int count, long deviceId, String query);
 
     void updateChannel(JTChannel channel);
 
     void addChannel(JTChannel channel);
 
-    void deleteChannelById(Integer id);
+    void deleteChannelById(Long id);
 
-    JTDevice getDeviceById(Integer deviceId);
+    JTDevice getDeviceById(Long deviceId);
 
     void updateDevicePosition(String phoneNumber, Double longitude, Double latitude);
 
-    JTChannel getChannelByDbId(Integer id);
+    JTChannel getChannelByDbId(Long id);
 
-    String getRecordTempUrl(String phoneNumber, Integer channelId, String startTime, String endTime, Integer alarmSign, Integer mediaType, Integer streamType, Integer storageType);
+    String getRecordTempUrl(String phoneNumber, Long channelId, String startTime, String endTime, Integer alarmSign, Integer mediaType, Integer streamType, Integer storageType);
 
     void recordDownload(String filePath, ServletOutputStream outputStream);
 
-    byte[] snap(String phoneNumber, int channelId);
+    byte[] snap(String phoneNumber, long channelId);
 
     void uploadOneMedia(String phoneNumber, Long mediaId, ServletOutputStream outputStream, boolean delete);
 

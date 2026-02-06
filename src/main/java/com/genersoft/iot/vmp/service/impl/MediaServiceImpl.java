@@ -190,7 +190,7 @@ public class MediaServiceImpl implements IMediaService {
                 redisCatchStorage.updateStreamAuthorityInfo(app, ssrcTransaction.getStream(), streamAuthorityInfo);
 
                 String deviceId = ssrcTransaction.getDeviceId();
-                Integer channelId = ssrcTransaction.getChannelId();
+                Long channelId = ssrcTransaction.getChannelId();
                 DeviceChannel deviceChannel = deviceChannelService.getOneForSourceById(channelId);
                 if (deviceChannel != null) {
                     result.setEnable_audio(deviceChannel.isHasAudio());
@@ -266,9 +266,9 @@ public class MediaServiceImpl implements IMediaService {
             if (jtMediaStreamType != null) {
                 String[] streamParamArray = stream.split("_");
                 if (jtMediaStreamType.equals(JTMediaStreamType.PLAY)) {
-                    jt1078PlayService.stopPlay(streamParamArray[0], Integer.parseInt(streamParamArray[1]));
+                    jt1078PlayService.stopPlay(streamParamArray[0], Long.parseLong(streamParamArray[1]));
                 }else if (jtMediaStreamType.equals(JTMediaStreamType.PLAYBACK)) {
-                    jt1078PlayService.stopPlayback(streamParamArray[0], Integer.parseInt(streamParamArray[1]));
+                    jt1078PlayService.stopPlayback(streamParamArray[0], Long.parseLong(streamParamArray[1]));
                 }
             }else {
                 return false;

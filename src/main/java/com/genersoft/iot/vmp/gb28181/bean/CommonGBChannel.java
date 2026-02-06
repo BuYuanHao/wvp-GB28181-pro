@@ -9,7 +9,7 @@ import lombok.Data;
 public class CommonGBChannel {
 
     @Schema(description = "国标-数据库自增ID")
-    private int gbId;
+    private Long gbId;
 
     @Schema(description = "国标-编码")
     private String gbDeviceId;
@@ -139,7 +139,7 @@ public class CommonGBChannel {
     private Integer dataType;
 
     @Schema(description = "关联的设备ID")
-    private Integer dataDeviceId;
+    private Long dataDeviceId;
 
     @Schema(description = "创建时间")
     private String createTime;

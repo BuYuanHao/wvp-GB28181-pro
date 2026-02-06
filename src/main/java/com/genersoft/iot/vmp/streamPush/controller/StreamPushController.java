@@ -258,7 +258,7 @@ public class StreamPushController {
     @GetMapping(value = "/start")
     @ResponseBody
     @Operation(summary = "开始播放", security = @SecurityRequirement(name = JwtUtils.HEADER))
-    public DeferredResult<WVPResult<StreamContent>> start(HttpServletRequest request, Integer id){
+    public DeferredResult<WVPResult<StreamContent>> start(HttpServletRequest request, Long id){
         Assert.notNull(id, "推流ID不可为NULL");
         DeferredResult<WVPResult<StreamContent>> result = new DeferredResult<>(userSetting.getPlayTimeout().longValue());
         result.onTimeout(()->{

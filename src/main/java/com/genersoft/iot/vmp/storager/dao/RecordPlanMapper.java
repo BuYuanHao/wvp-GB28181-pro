@@ -63,5 +63,5 @@ public interface RecordPlanMapper {
             " select wdc.id from wvp_device_channel wdc left join wvp_record_plan_item wrpi on wrpi.plan_id = wdc.record_plan_id " +
             " where  wrpi.week_day = #{week} and wrpi.start &lt;= #{index} and stop &gt;= #{index} group by wdc.id" +
             " </script>")
-    List<Integer> queryRecordIng(@Param("week") int week, @Param("index") int index);
+    List<Long> queryRecordIng(@Param("week") int week, @Param("index") int index);
 }

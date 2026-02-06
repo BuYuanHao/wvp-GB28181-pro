@@ -104,7 +104,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
                 log.info("[JT-对讲流到来] 未找到设备{}", phoneNumber);
                 return;
             }
-            sendTalk(device, Integer.valueOf(channelId), event.getMediaServer(), event.getApp(), event.getStream());
+            sendTalk(device, Long.valueOf(channelId), event.getMediaServer(), event.getApp(), event.getStream());
 
         }
     }
@@ -133,7 +133,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
         }
         String[] streamParamArray = event.getStream().split("_");
         String phoneNumber = streamParamArray[1];
-        int channelId = Integer.parseInt(streamParamArray[2]);
+        long channelId = Long.parseLong(streamParamArray[2]);
         String params = event.getParams();
         Map<String, String> paramMap = MediaServerUtils.urlParamToMap(params);
         int type = 0;
@@ -181,7 +181,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     private final Map<String, List<CommonCallback<WVPResult<StreamInfo>>>> inviteErrorCallbackMap = new ConcurrentHashMap<>();
 
     @Override
-    public void play(String phoneNumber, Integer channelId, int type, CommonCallback<WVPResult<StreamInfo>> callback) {
+    public void play(String phoneNumber, Long channelId, int type, CommonCallback<WVPResult<StreamInfo>> callback) {
         JTDevice device = jt1078Service.getDevice(phoneNumber);
         if (device == null) {
             throw new ControllerException(ErrorCode.ERROR100.getCode(), "设备不存在");
@@ -196,7 +196,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
 
     private void play(JTDevice device, JTChannel channel, int type, CommonCallback<WVPResult<StreamInfo>> callback) {
         String phoneNumber = device.getPhoneNumber();
-        int channelId = channel.getChannelId();
+        long channelId = channel.getChannelId();
         String app = "1078";
         String stream = phoneNumber + "_" + channelId;
         // 检查流是否已经存在，存在则返回
@@ -286,7 +286,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
         jt1078Template.startLive(phoneNumber, j9101, 6);
     }
 
-    public StreamInfo onPublishHandler(MediaServer mediaServerItem, HookData hookData, String phoneNumber, Integer channelId) {
+    public StreamInfo onPublishHandler(MediaServer mediaServerItem, HookData hookData, String phoneNumber, Long channelId) {
         StreamInfo streamInfo = mediaServerService.getStreamInfoByAppAndStream(mediaServerItem, "1078", hookData.getStream(), hookData.getMediaInfo(), null);
         streamInfo.setDeviceId(phoneNumber);
         streamInfo.setChannelId(channelId);
@@ -294,7 +294,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public void stopPlay(String phoneNumber, Integer channelId) {
+    public void stopPlay(String phoneNumber, Long channelId) {
         String playKey = VideoManagerConstants.INVITE_INFO_1078_PLAY + phoneNumber + ":" + channelId;
         dynamicTask.stop(playKey);
         // 清理回调
@@ -324,7 +324,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public void pausePlay(String phoneNumber, Integer channelId) {
+    public void pausePlay(String phoneNumber, Long channelId) {
         String playKey = VideoManagerConstants.INVITE_INFO_1078_PLAY + phoneNumber + ":" + channelId;
         dynamicTask.stop(playKey);
         StreamInfo streamInfo = (StreamInfo) redisTemplate.opsForValue().get(playKey);
@@ -342,7 +342,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public void continueLivePlay(String phoneNumber, Integer channelId) {
+    public void continueLivePlay(String phoneNumber, Long channelId) {
         String playKey = VideoManagerConstants.INVITE_INFO_1078_PLAY + phoneNumber + ":" + channelId;
         dynamicTask.stop(playKey);
         StreamInfo streamInfo = (StreamInfo) redisTemplate.opsForValue().get(playKey);
@@ -360,7 +360,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public List<J1205.JRecordItem> getRecordList(String phoneNumber, Integer channelId, String startTime, String endTime) {
+    public List<J1205.JRecordItem> getRecordList(String phoneNumber, Long channelId, String startTime, String endTime) {
         log.info("[JT-查询录像列表] phoneNumber： {}， channelId： {}， startTime： {}， endTime： {}"
                 , phoneNumber, channelId, startTime, endTime);
         // 发送请求录像列表命令
@@ -383,7 +383,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
 
 
     @Override
-    public void playback(String phoneNumber, Integer channelId, String startTime, String endTime, Integer type,
+    public void playback(String phoneNumber, Long channelId, String startTime, String endTime, Integer type,
                          Integer rate, Integer playbackType, Integer playbackSpeed, CommonCallback<WVPResult<StreamInfo>> callback) {
         JTDevice device = jt1078Service.getDevice(phoneNumber);
         if (device == null) {
@@ -414,7 +414,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
                          Integer rate, Integer playbackType, Integer playbackSpeed, CommonCallback<WVPResult<StreamInfo>> callback) {
 
         String phoneNumber = device.getPhoneNumber();
-        Integer channelId = channel.getChannelId();
+        Long channelId = channel.getChannelId();
         log.info("[JT-回放] 回放，设备:{}， 通道： {}， 开始时间： {}， 结束时间： {}， 音视频类型： {}， 码流类型： {}， " +
                 "回放方式： {}， 快进或快退倍数： {}", phoneNumber, channelId, startTime, endTime, type, rate, playbackType, playbackSpeed);
         // 检查流是否已经存在，存在则返回
@@ -498,7 +498,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public void playbackControl(String phoneNumber, Integer channelId, Integer command, Integer playbackSpeed, String time) {
+    public void playbackControl(String phoneNumber, Long channelId, Integer command, Integer playbackSpeed, String time) {
         String playKey = VideoManagerConstants.INVITE_INFO_1078_PLAYBACK + phoneNumber + ":" + channelId;
         dynamicTask.stop(playKey);
         if (command == 2) {
@@ -541,7 +541,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public void stopPlayback(String phoneNumber, Integer channelId) {
+    public void stopPlayback(String phoneNumber, Long channelId) {
         playbackControl(phoneNumber, channelId, 2, null, null);
     }
 
@@ -570,7 +570,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
 
 
     @Override
-    public StreamInfo startTalk(String phoneNumber, Integer channelId) {
+    public StreamInfo startTalk(String phoneNumber, Long channelId) {
         // 检查流是否已经存在，存在则返回
         String playKey = VideoManagerConstants.INVITE_INFO_1078_TALK + phoneNumber + ":" + channelId;
         StreamInfo streamInfo = (StreamInfo) redisTemplate.opsForValue().get(playKey);
@@ -597,7 +597,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
         return mediaServerService.getStreamInfoByAppAndStream(mediaServer, talkApp, stream, null, null, null, false);
 
     }
-    private void sendTalk(JTDevice device, Integer channelId, MediaServer mediaServer, String app, String stream) {
+    private void sendTalk(JTDevice device, Long channelId, MediaServer mediaServer, String app, String stream) {
         // 检查待发送的流是否存在，
         MediaInfo mediaInfo = mediaServerService.getMediaInfo(mediaServer, app, stream);
         if (mediaInfo == null) {
@@ -647,7 +647,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public void stopTalk(String phoneNumber, Integer channelId) {
+    public void stopTalk(String phoneNumber, Long channelId) {
         String playKey = VideoManagerConstants.INVITE_INFO_1078_TALK + phoneNumber + ":" + channelId;
         dynamicTask.stop(playKey);
         StreamInfo streamInfo = (StreamInfo) redisTemplate.opsForValue().get(playKey);
@@ -675,7 +675,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public void start(Integer channelId, Boolean record, ErrorCallback<StreamInfo> callback) {
+    public void start(Long channelId, Boolean record, ErrorCallback<StreamInfo> callback) {
         JTChannel channel = jt1078Service.getChannelByDbId(channelId);
         Assert.notNull(channel, "通道不存在");
         JTDevice device = jt1078Service.getDeviceById(channel.getTerminalDbId());
@@ -686,7 +686,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public void stop(Integer channelId) {
+    public void stop(Long channelId) {
         JTChannel channel = jt1078Service.getChannelByDbId(channelId);
         Assert.notNull(channel, "通道不存在");
         JTDevice device = jt1078Service.getDeviceById(channel.getTerminalDbId());
@@ -695,7 +695,7 @@ public class jt1078PlayServiceImpl implements Ijt1078PlayService {
     }
 
     @Override
-    public void playBack(Integer channelId, Long startTime, Long stopTime, ErrorCallback<StreamInfo> callback) {
+    public void playBack(Long channelId, Long startTime, Long stopTime, ErrorCallback<StreamInfo> callback) {
         if (startTime == null || stopTime == null) {
             throw new PlayException(Response.BAD_REQUEST, "bad request");
         }

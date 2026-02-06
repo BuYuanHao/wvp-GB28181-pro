@@ -9,6 +9,6 @@ public class ChannelToGroupParam {
 
     private String parentId;
     private String businessGroup;
-    private List<Integer> channelIds;
+    private List<Long> channelIds;
 
 }

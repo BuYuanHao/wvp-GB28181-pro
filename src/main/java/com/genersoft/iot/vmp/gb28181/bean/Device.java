@@ -13,7 +13,7 @@ import lombok.Data;
 public class Device {
 
 	@Schema(description = "数据库自增ID")
-	private int id;
+	private long id;
 
 	/**
 	 * 设备国标编号

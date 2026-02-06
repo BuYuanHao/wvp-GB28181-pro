@@ -8,11 +8,11 @@ import jakarta.validation.constraints.NotNull;
 
 public interface IStreamProxyPlayService {
 
-    void start(int id, Boolean record, ErrorCallback<StreamInfo> callback);
+    void start(long id, Boolean record, ErrorCallback<StreamInfo> callback);
 
     void startProxy(@NotNull StreamProxy streamProxy, ErrorCallback<StreamInfo> callback);
 
-    void stop(int id);
+    void stop(long id);
 
     void stopProxy(StreamProxy streamProxy);
 }

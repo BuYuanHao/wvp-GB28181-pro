@@ -21,13 +21,14 @@ public class ChannelDataType {
         if (dataType == null) {
             return "未知";
         }
-        return switch (dataType) {
-            case ChannelDataType.GB28181 -> "国标28181";
-            case ChannelDataType.STREAM_PUSH -> "推流设备";
-            case ChannelDataType.STREAM_PROXY -> "拉流代理";
-            case ChannelDataType.JT_1078 -> "部标设备";
-            default -> "未知";
-        };
+        switch (dataType) {
+            case ChannelDataType.GB28181 : return "国标28181";
+                case ChannelDataType.STREAM_PUSH : return "推流设备";
+                case ChannelDataType.STREAM_PROXY : return "拉流代理";
+                case ChannelDataType.JT_1078 : return "部标设备";
+                default : return "未知";
+        }
+
     }
 
 

@@ -53,7 +53,7 @@ public class StreamPushPlayServiceImpl implements IStreamPushPlayService {
     private RedisPushStreamResponseListener redisPushStreamResponseListener;
 
     @Override
-    public void start(Integer id, ErrorCallback<StreamInfo> callback, String platformDeviceId, String platformName ) {
+    public void start(Long id, ErrorCallback<StreamInfo> callback, String platformDeviceId, String platformName ) {
         StreamPush streamPush = streamPushMapper.queryOne(id);
         Assert.notNull(streamPush, "推流信息未找到");
 
@@ -130,7 +130,7 @@ public class StreamPushPlayServiceImpl implements IStreamPushPlayService {
     }
 
     @Override
-    public void stop(Integer id) {
+    public void stop(Long id) {
         StreamPush streamPush = streamPushMapper.queryOne(id);
         if (streamPush == null || !streamPush.isPushing()) {
             return;

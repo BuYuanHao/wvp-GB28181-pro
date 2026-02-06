@@ -93,7 +93,7 @@ public interface IStreamPushService {
 
     void batchUpdateForRedisMsg(List<StreamPush> streamPushItemForUpdate);
 
-    int delete(int id);
+    int delete(long id);
 
     void batchRemove(Set<Integer> ids);
 

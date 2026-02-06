@@ -23,7 +23,7 @@ public class StreamPush extends CommonGBChannel implements Comparable<StreamPush
      * id
      */
     @Schema(description = "id")
-    private Integer id;
+    private Long id;
 
     /**
      * 应用名

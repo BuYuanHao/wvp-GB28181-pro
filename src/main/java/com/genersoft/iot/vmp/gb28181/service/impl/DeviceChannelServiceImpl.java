@@ -242,12 +242,12 @@ public class DeviceChannelServiceImpl implements IDeviceChannelService {
     }
 
     @Override
-    public DeviceChannel getOneForSource(int deviceDbId, String channelId) {
+    public DeviceChannel getOneForSource(long deviceDbId, String channelId) {
         return channelMapper.getOneByDeviceIdForSource(deviceDbId, channelId);
     }
 
     @Override
-    public DeviceChannel getOneBySourceId(int deviceDbId, String channelId) {
+    public DeviceChannel getOneBySourceId(long deviceDbId, String channelId) {
         return channelMapper.getOneBySourceChannelId(deviceDbId, channelId);
     }
 
@@ -282,7 +282,7 @@ public class DeviceChannelServiceImpl implements IDeviceChannelService {
     }
 
     @Override
-    public void handlePtzCmd(@NotNull Integer dataDeviceId, @NotNull Integer gbId, Element rootElement, DeviceControlType type, ErrorCallback<String> callback) {
+    public void handlePtzCmd(@NotNull Long dataDeviceId, @NotNull Long gbId, Element rootElement, DeviceControlType type, ErrorCallback<String> callback) {
 
         // 根据通道ID，获取所属设备
         Device device = deviceMapper.query(dataDeviceId);
@@ -371,23 +371,23 @@ public class DeviceChannelServiceImpl implements IDeviceChannelService {
     }
 
     @Override
-    public void startPlay(Integer channelId, String stream) {
+    public void startPlay(Long channelId, String stream) {
         channelMapper.startPlay(channelId, stream);
     }
 
     @Override
-    public void stopPlay(Integer channelId) {
+    public void stopPlay(Long channelId) {
         channelMapper.stopPlayById(channelId);
     }
 
     @Override
-    public void cleanChannelsForDevice(int deviceId) {
+    public void cleanChannelsForDevice(long deviceId) {
         channelMapper.cleanChannelsByDeviceId(deviceId);
     }
 
     @Override
     @Transactional
-    public boolean resetChannels(int deviceDbId, List<DeviceChannel> deviceChannelList) {
+    public boolean resetChannels(long deviceDbId, List<DeviceChannel> deviceChannelList) {
         if (CollectionUtils.isEmpty(deviceChannelList)) {
             return false;
         }
@@ -491,7 +491,7 @@ public class DeviceChannelServiceImpl implements IDeviceChannelService {
         if (!deleteChannels.isEmpty()) {
             try {
                 // 这些通道可能关联了，上级平台需要删除同时发送消息
-                List<Integer> ids = new ArrayList<>();
+                List<Long> ids = new ArrayList<>();
                 deleteChannels.stream().forEach(deviceChannel -> {
                     ids.add(deviceChannel.getId());
                 });
@@ -516,7 +516,7 @@ public class DeviceChannelServiceImpl implements IDeviceChannelService {
     }
 
     @Override
-    public PageInfo<DeviceChannel> getSubChannels(int deviceDbId, String channelId, String query, Boolean channelType, Boolean online, int page, int count) {
+    public PageInfo<DeviceChannel> getSubChannels(long deviceDbId, String channelId, String query, Boolean channelType, Boolean online, int page, int count) {
         PageHelper.startPage(page, count);
         String civilCode = null;
         String parentId = null;
@@ -584,17 +584,17 @@ public class DeviceChannelServiceImpl implements IDeviceChannelService {
     }
 
     @Override
-    public DeviceChannel getOneById(Integer channelId) {
+    public DeviceChannel getOneById(Long channelId) {
         return channelMapper.getOne(channelId);
     }
 
     @Override
-    public DeviceChannel getOneForSourceById(Integer channelId) {
+    public DeviceChannel getOneForSourceById(Long channelId) {
         return channelMapper.getOneForSource(channelId);
     }
 
     @Override
-    public DeviceChannel getBroadcastChannel(int deviceDbId) {
+    public DeviceChannel getBroadcastChannel(long deviceDbId) {
         List<DeviceChannel> channels = channelMapper.queryChannelsByDeviceDbId(deviceDbId);
         if (channels.size() == 1) {
             return channels.get(0);
@@ -609,7 +609,7 @@ public class DeviceChannelServiceImpl implements IDeviceChannelService {
     }
 
     @Override
-    public void changeAudio(Integer channelId, Boolean audio) {
+    public void changeAudio(Long channelId, Boolean audio) {
         channelMapper.changeAudio(channelId, audio);
     }
 

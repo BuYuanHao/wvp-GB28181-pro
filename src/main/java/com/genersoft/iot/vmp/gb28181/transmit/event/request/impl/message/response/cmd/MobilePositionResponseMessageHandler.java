@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.gb28181.transmit.event.request.impl.message.response.cmd;
 
+import cn.hutool.core.date.DatePattern;
 import com.genersoft.iot.vmp.gb28181.bean.Device;
 import com.genersoft.iot.vmp.gb28181.bean.DeviceChannel;
 import com.genersoft.iot.vmp.gb28181.bean.MobilePosition;
@@ -27,6 +28,7 @@ import javax.sip.RequestEvent;
 import javax.sip.SipException;
 import javax.sip.message.Response;
 import java.text.ParseException;
+import java.util.Date;
 
 import static com.genersoft.iot.vmp.gb28181.utils.XmlUtil.getText;
 
@@ -85,9 +87,9 @@ public class MobilePositionResponseMessageHandler extends SIPRequestProcessorPar
                 //兼容ISO 8601格式时间
                 String time = getText(rootElement, "Time");
                 if (ObjectUtils.isEmpty(time)){
-                    mobilePosition.setTime(DateUtil.getNow());
+                    mobilePosition.setTime(new Date());
                 }else {
-                    mobilePosition.setTime(SipUtils.parseTime(time));
+                    mobilePosition.setTime(cn.hutool.core.date.DateUtil.parse(time, DatePattern.UTC_SIMPLE_PATTERN));
                 }
                 mobilePosition.setLongitude(Double.parseDouble(getText(rootElement, "Longitude")));
                 mobilePosition.setLatitude(Double.parseDouble(getText(rootElement, "Latitude")));
@@ -111,7 +113,7 @@ public class MobilePositionResponseMessageHandler extends SIPRequestProcessorPar
                 // 更新device channel 的经纬度
                 deviceChannel.setLongitude(mobilePosition.getLongitude());
                 deviceChannel.setLatitude(mobilePosition.getLatitude());
-                deviceChannel.setGpsTime(mobilePosition.getTime());
+                deviceChannel.setGpsTime(cn.hutool.core.date.DateUtil.format(mobilePosition.getTime(), DatePattern.UTC_SIMPLE_PATTERN));
 
                 deviceChannelService.updateChannelGPS(device, deviceChannel, mobilePosition);
 

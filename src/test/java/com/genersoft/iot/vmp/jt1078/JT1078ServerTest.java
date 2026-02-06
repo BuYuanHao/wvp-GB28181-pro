@@ -49,7 +49,7 @@ public class JT1078ServerTest {
 
     private static void test9102() {
         J9102 j9102 = new J9102();
-        j9102.setChannel(1);
+        j9102.setChannel(1L);
         j9102.setCommand(0);
         j9102.setCloseType(0);
         j9102.setStreamType(0);

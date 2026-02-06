@@ -17,13 +17,13 @@ public interface IPlatformChannelService {
 
     int removeAllChannel(Integer platformId);
 
-    int addChannels(Integer platformId, List<Integer> channelIds);
+    int addChannels(Integer platformId, List<Long> channelIds);
 
-    int removeChannels(Integer platformId, List<Integer> channelIds);
+    int removeChannels(Integer platformId, List<Long> channelIds);
 
-    void removeChannels(List<Integer> ids);
+    void removeChannels(List<Long> ids);
 
-    void removeChannel(int gbId);
+    void removeChannel(long gbId);
 
     List<CommonGBChannel> queryByPlatform(Platform platform);
 
@@ -39,11 +39,11 @@ public interface IPlatformChannelService {
 
     void checkGroupAdd(List<CommonGBChannel> channelList);
 
-    List<Platform> queryPlatFormListByChannelDeviceId(Integer channelId, List<String> platforms);
+    List<Platform> queryPlatFormListByChannelDeviceId(Long channelId, List<String> platforms);
 
-    CommonGBChannel queryChannelByPlatformIdAndChannelId(Integer platformId, Integer channelId);
+    CommonGBChannel queryChannelByPlatformIdAndChannelId(Integer platformId, Long channelId);
 
-    List<CommonGBChannel> queryChannelByPlatformIdAndChannelIds(Integer platformId, List<Integer> channelIds);
+    List<CommonGBChannel> queryChannelByPlatformIdAndChannelIds(Integer platformId, List<Long> channelIds);
 
     void checkRegionAdd(List<CommonGBChannel> channelList);
 

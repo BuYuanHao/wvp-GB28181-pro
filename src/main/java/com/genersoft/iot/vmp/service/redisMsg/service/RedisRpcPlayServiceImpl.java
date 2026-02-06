@@ -43,7 +43,7 @@ public class RedisRpcPlayServiceImpl implements IRedisRpcPlayService {
     }
 
     @Override
-    public void play(String serverId, Integer channelId, ErrorCallback<StreamInfo> callback) {
+    public void play(String serverId, Long channelId, ErrorCallback<StreamInfo> callback) {
         RedisRpcRequest request = buildRequest("channel/play", channelId);
         request.setToId(serverId);
         RedisRpcResponse response = redisRpcConfig.request(request, userSetting.getPlayTimeout(), TimeUnit.MILLISECONDS);
@@ -60,7 +60,7 @@ public class RedisRpcPlayServiceImpl implements IRedisRpcPlayService {
     }
 
     @Override
-    public void stop(String serverId, InviteSessionType type, int channelId, String stream) {
+    public void stop(String serverId, InviteSessionType type, long channelId, String stream) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("channelId", channelId);
         jsonObject.put("stream", stream);
@@ -78,7 +78,7 @@ public class RedisRpcPlayServiceImpl implements IRedisRpcPlayService {
     }
 
     @Override
-    public void queryRecordInfo(String serverId, Integer channelId, String startTime, String endTime, ErrorCallback<RecordInfo> callback) {
+    public void queryRecordInfo(String serverId, Long channelId, String startTime, String endTime, ErrorCallback<RecordInfo> callback) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("channelId", channelId);
         jsonObject.put("startTime", startTime);
@@ -99,7 +99,7 @@ public class RedisRpcPlayServiceImpl implements IRedisRpcPlayService {
     }
 
     @Override
-    public void playback(String serverId, Integer channelId, String startTime, String endTime, ErrorCallback<StreamInfo> callback) {
+    public void playback(String serverId, Long channelId, String startTime, String endTime, ErrorCallback<StreamInfo> callback) {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("channelId", channelId);
@@ -149,7 +149,7 @@ public class RedisRpcPlayServiceImpl implements IRedisRpcPlayService {
     }
 
     @Override
-    public void download(String serverId, Integer channelId, String startTime, String endTime, int downloadSpeed, ErrorCallback<StreamInfo> callback) {
+    public void download(String serverId, Long channelId, String startTime, String endTime, int downloadSpeed, ErrorCallback<StreamInfo> callback) {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("channelId", channelId);
@@ -172,7 +172,7 @@ public class RedisRpcPlayServiceImpl implements IRedisRpcPlayService {
     }
 
     @Override
-    public String frontEndCommand(String serverId, Integer channelId, int cmdCode, int parameter1, int parameter2, int combindCode2) {
+    public String frontEndCommand(String serverId, Long channelId, int cmdCode, int parameter1, int parameter2, int combindCode2) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("channelId", channelId);
         jsonObject.put("cmdCode", cmdCode);
@@ -193,7 +193,7 @@ public class RedisRpcPlayServiceImpl implements IRedisRpcPlayService {
     }
 
     @Override
-    public void playPush(String serverId, Integer id, ErrorCallback<StreamInfo> callback) {
+    public void playPush(String serverId, Long id, ErrorCallback<StreamInfo> callback) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);
         RedisRpcRequest request = buildRequest("streamPush/play", jsonObject);
@@ -212,7 +212,7 @@ public class RedisRpcPlayServiceImpl implements IRedisRpcPlayService {
     }
 
     @Override
-    public void playProxy(String serverId, int id, ErrorCallback<StreamInfo> callback) {
+    public void playProxy(String serverId, long id, ErrorCallback<StreamInfo> callback) {
         RedisRpcRequest request = buildRequest("streamProxy/play", id);
         request.setToId(serverId);
         RedisRpcResponse response = redisRpcConfig.request(request, userSetting.getPlayTimeout(), TimeUnit.SECONDS);
@@ -229,7 +229,7 @@ public class RedisRpcPlayServiceImpl implements IRedisRpcPlayService {
     }
 
     @Override
-    public void stopProxy(String serverId, int id) {
+    public void stopProxy(String serverId, long id) {
         RedisRpcRequest request = buildRequest("streamProxy/stop", id);
         RedisRpcResponse response = redisRpcConfig.request(request, userSetting.getPlayTimeout(), TimeUnit.SECONDS);
         if (response != null && response.getStatusCode() == ErrorCode.SUCCESS.getCode()) {

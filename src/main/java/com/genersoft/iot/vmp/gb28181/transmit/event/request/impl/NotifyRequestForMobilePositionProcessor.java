@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.gb28181.transmit.event.request.impl;
 
+import cn.hutool.core.date.DatePattern;
 import com.genersoft.iot.vmp.conf.UserSetting;
 import com.genersoft.iot.vmp.gb28181.bean.Device;
 import com.genersoft.iot.vmp.gb28181.bean.DeviceChannel;
@@ -24,6 +25,7 @@ import org.springframework.util.ObjectUtils;
 import javax.sip.RequestEvent;
 import javax.sip.header.FromHeader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -115,9 +117,9 @@ public class NotifyRequestForMobilePositionProcessor extends SIPRequestProcessor
 						case "Time":
 							String timeVal = element.getStringValue();
 							if (ObjectUtils.isEmpty(timeVal)) {
-								mobilePosition.setTime(DateUtil.getNow());
+								mobilePosition.setTime(new Date());
 							} else {
-								mobilePosition.setTime(SipUtils.parseTime(timeVal));
+								mobilePosition.setTime(cn.hutool.core.date.DateUtil.parse(timeVal, DatePattern.UTC_SIMPLE_PATTERN));
 							}
 							break;
 						case "Longitude":

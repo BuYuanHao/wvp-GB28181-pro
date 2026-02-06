@@ -17,7 +17,7 @@ public interface IRedisRpcService {
 
     WVPResult stopSendRtp(String callId);
 
-    long waitePushStreamOnline(SendRtpInfo sendRtpItem, CommonCallback<Integer> callback);
+    long waitePushStreamOnline(SendRtpInfo sendRtpItem, CommonCallback<Long> callback);
 
     void stopWaitePushStreamOnline(SendRtpInfo sendRtpItem);
 
@@ -29,9 +29,9 @@ public interface IRedisRpcService {
 
     void unPushStreamOnlineEvent(String app, String stream);
 
-    void subscribeCatalog(int id, int cycle);
+    void subscribeCatalog(long id, int cycle);
 
-    void subscribeMobilePosition(int id, int cycle, int interval);
+    void subscribeMobilePosition(long id, int cycle, int interval);
 
     boolean updatePlatform(String serverId, Platform platform);
 

@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.service.bean;
 
+import cn.hutool.core.date.DatePattern;
 import com.genersoft.iot.vmp.gb28181.bean.MobilePosition;
 import com.genersoft.iot.vmp.utils.DateUtil;
 import lombok.Data;
@@ -15,7 +16,7 @@ public class GPSMsgInfo {
     /**
      * 通道ID
      */
-    private Integer channelId;
+    private Long channelId;
 
     /**
      *
@@ -62,7 +63,7 @@ public class GPSMsgInfo {
         gpsMsgInfo.setLat(mobilePosition.getLatitude());
         gpsMsgInfo.setSpeed(mobilePosition.getSpeed());
         gpsMsgInfo.setDirection(mobilePosition.getDirection());
-        gpsMsgInfo.setTime(DateUtil.yyyy_MM_dd_HH_mm_ssToISO8601(mobilePosition.getTime()));
+        gpsMsgInfo.setTime(DateUtil.yyyy_MM_dd_HH_mm_ssToISO8601(cn.hutool.core.date.DateUtil.format(mobilePosition.getTime(), DatePattern.UTC_SIMPLE_PATTERN)));
         return gpsMsgInfo;
     }
 }

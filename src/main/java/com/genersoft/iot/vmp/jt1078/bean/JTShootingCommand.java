@@ -13,7 +13,7 @@ import lombok.Setter;
 public class JTShootingCommand {
 
     @Schema(description = "通道 ID")
-    private int chanelId;
+    private long chanelId;
 
     @Schema(description = "0:停止拍摄；0xFFFF:录像；其他:拍照张数")
     private int command;
@@ -54,7 +54,7 @@ public class JTShootingCommand {
 
     public ByteBuf decode() {
         ByteBuf byteBuf = Unpooled.buffer();
-        byteBuf.writeByte(chanelId);
+        byteBuf.writeLong(chanelId);
         byteBuf.writeShort((short)(command & 0xffff));
         byteBuf.writeShort((short)(time & 0xffff));
         byteBuf.writeByte(save);

@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.gb28181.transmit.event.request.impl.message.notify.cmd;
 
+import cn.hutool.core.date.DatePattern;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.genersoft.iot.vmp.conf.SipConfig;
@@ -154,7 +155,7 @@ public class AlarmNotifyMessageHandler extends SIPRequestProcessorParent impleme
                         mobilePosition.setDeviceId(deviceAlarm.getDeviceId());
                         mobilePosition.setChannelId(deviceChannel.getId());
                         mobilePosition.setChannelDeviceId(deviceChannel.getDeviceId());
-                        mobilePosition.setTime(deviceAlarm.getAlarmTime());
+                        mobilePosition.setTime(cn.hutool.core.date.DateUtil.parse(deviceAlarm.getAlarmTime(), DatePattern.UTC_SIMPLE_PATTERN));
                         mobilePosition.setLongitude(deviceAlarm.getLongitude());
                         mobilePosition.setLatitude(deviceAlarm.getLatitude());
                         mobilePosition.setReportSource("GPS Alarm");
@@ -162,7 +163,7 @@ public class AlarmNotifyMessageHandler extends SIPRequestProcessorParent impleme
                         // 更新device channel 的经纬度
                         deviceChannel.setLongitude(mobilePosition.getLongitude());
                         deviceChannel.setLatitude(mobilePosition.getLatitude());
-                        deviceChannel.setGpsTime(mobilePosition.getTime());
+                        deviceChannel.setGpsTime(cn.hutool.core.date.DateUtil.format(mobilePosition.getTime(), DatePattern.UTC_SIMPLE_PATTERN));
 
                         deviceChannelService.updateChannelGPS(device, deviceChannel, mobilePosition);
                     }

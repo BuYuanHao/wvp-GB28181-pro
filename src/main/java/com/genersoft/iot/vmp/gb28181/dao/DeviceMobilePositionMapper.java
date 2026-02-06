@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -20,11 +21,11 @@ public interface DeviceMobilePositionMapper {
     "SELECT * FROM wvp_device_mobile_position" +
     " WHERE device_id = #{deviceId}" +
     "<if test=\"channelId != null\"> and channel_id = #{channelId}</if>" +
-    "<if test=\"startTime != null\"> AND time&gt;=#{startTime}</if>" +
-    "<if test=\"endTime != null\"> AND time&lt;=#{endTime}</if>" +
+    "<if test=\"startTime != null\"> AND time&gt;=#{startTime,jdbcType=TIMESTAMP}</if>" +
+    "<if test=\"endTime != null\"> AND time&lt;=#{endTime,jdbcType=TIMESTAMP}</if>" +
     " ORDER BY time ASC" +
     " </script>"})
-    List<MobilePosition> queryPositionByDeviceIdAndTime(@Param("deviceId") String deviceId, @Param("channelId") String channelId, @Param("startTime") String startTime, @Param("endTime") String endTime);
+    List<MobilePosition> queryPositionByDeviceIdAndTime(@Param("deviceId") String deviceId, @Param("channelId") String channelId, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 
     @Select("SELECT * FROM wvp_device_mobile_position WHERE device_id = #{deviceId}" +
             " ORDER BY time DESC LIMIT 1")
@@ -45,5 +46,8 @@ public interface DeviceMobilePositionMapper {
             "</foreach> " +
             "</script>")
     void batchadd(List<MobilePosition> mobilePositions);
-
+    @Delete(value = {" <script>" +
+            "DELETE FROM wvp_device_mobile_position WHERE  DATE_FORMAT(time, '%Y-%m-%dT%H:%i:%S' )  &lt;= #{dateTimeEnd} " +
+            " </script>"})
+    int deleteByTimeLessThanOrEqualTo(String dateTimeEnd);
 }

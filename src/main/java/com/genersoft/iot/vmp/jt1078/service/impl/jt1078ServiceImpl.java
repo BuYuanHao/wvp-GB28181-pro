@@ -230,7 +230,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
     }
 
     @Override
-    public JTChannel getChannel(Integer terminalDbId, Integer channelId) {
+    public JTChannel getChannel(Integer terminalDbId, Long channelId) {
         return jtChannelMapper.selectChannelByChannelId(terminalDbId, channelId);
     }
 
@@ -275,7 +275,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
 
 
     @Override
-    public void recordDownload(String phoneNumber, Integer channelId, String startTime, String endTime, Integer alarmSign,
+    public void recordDownload(String phoneNumber, Long channelId, String startTime, String endTime, Integer alarmSign,
                                Integer mediaType, Integer streamType, Integer storageType, OutputStream outputStream, CommonCallback<WVPResult<String>> fileCallback) {
         String filePath = UUID.randomUUID().toString();
         fileSystemFactory.addOutputStream(filePath, outputStream);
@@ -318,7 +318,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
     }
 
     @Override
-    public void ptzControl(String phoneNumber, Integer channelId, String command, int speed) {
+    public void ptzControl(String phoneNumber, Long channelId, String command, int speed) {
         // 发送停止命令
         switch (command) {
             case "left":
@@ -391,7 +391,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
     }
 
     @Override
-    public void supplementaryLight(String phoneNumber, Integer channelId, String command) {
+    public void supplementaryLight(String phoneNumber, Long channelId, String command) {
         J9305 j9305 = new J9305();
         j9305.setChannel(channelId);
         if (command.equalsIgnoreCase("on")) {
@@ -403,7 +403,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
     }
 
     @Override
-    public void wiper(String phoneNumber, Integer channelId, String command) {
+    public void wiper(String phoneNumber, Long channelId, String command) {
         J9304 j9304 = new J9304();
         j9304.setChannel(channelId);
         if (command.equalsIgnoreCase("on")) {
@@ -690,7 +690,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
     }
 
     @Override
-    public void changeStreamType(String phoneNumber, Integer channelId, Integer streamType) {
+    public void changeStreamType(String phoneNumber, Long channelId, Integer streamType) {
         String playKey = VideoManagerConstants.INVITE_INFO_1078_PLAY + phoneNumber + ":" + channelId;
         dynamicTask.stop(playKey);
         StreamInfo streamInfo = (StreamInfo) redisTemplate.opsForValue().get(playKey);
@@ -708,7 +708,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
     }
 
     @Override
-    public PageInfo<JTChannel> getChannelList(int page, int count, int deviceId, String query) {
+    public PageInfo<JTChannel> getChannelList(int page, int count, long deviceId, String query) {
 
         JTDevice device = getDeviceById(deviceId);
         if (device == null) {
@@ -758,7 +758,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
 
     @Override
     @Transactional
-    public void deleteChannelById(Integer id) {
+    public void deleteChannelById(Long id) {
         JTChannel jtChannel = jtChannelMapper.selectChannelById(id);
         if (jtChannel == null) {
             return;
@@ -770,7 +770,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
     }
 
     @Override
-    public JTDevice getDeviceById(Integer deviceId) {
+    public JTDevice getDeviceById(Long deviceId) {
         return jtDeviceMapper.getDeviceById(deviceId);
     }
 
@@ -802,14 +802,14 @@ public class jt1078ServiceImpl implements Ijt1078Service {
     }
 
     @Override
-    public JTChannel getChannelByDbId(Integer id) {
+    public JTChannel getChannelByDbId(Long id) {
         return jtChannelMapper.selectChannelById(id);
     }
 
 
 
     @Override
-    public String getRecordTempUrl(String phoneNumber, Integer channelId, String startTime, String endTime, Integer alarmSign, Integer mediaType, Integer streamType, Integer storageType) {
+    public String getRecordTempUrl(String phoneNumber, Long channelId, String startTime, String endTime, Integer alarmSign, Integer mediaType, Integer streamType, Integer storageType) {
         String filePath = UUID.randomUUID().toString();
 
         Session session = SessionManager.INSTANCE.get(phoneNumber);
@@ -862,7 +862,7 @@ public class jt1078ServiceImpl implements Ijt1078Service {
 
 
     @Override
-    public byte[] snap(String phoneNumber, int channelId) {
+    public byte[] snap(String phoneNumber, long channelId) {
         J8801 j8801 = new J8801();
 
         // 设置抓图默认参数

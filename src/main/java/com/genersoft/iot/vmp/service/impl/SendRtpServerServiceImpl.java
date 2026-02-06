@@ -32,7 +32,7 @@ public class SendRtpServerServiceImpl implements ISendRtpServerService {
 
     @Override
     public SendRtpInfo createSendRtpInfo(MediaServer mediaServer, String ip, Integer port, String ssrc, String requesterId,
-                                         String deviceId, Integer channelId, Boolean isTcp, Boolean rtcp) {
+                                         String deviceId, Long channelId, Boolean isTcp, Boolean rtcp) {
         int localPort = getNextPort(mediaServer);
         if (localPort <= 0) {
             return null;
@@ -43,7 +43,7 @@ public class SendRtpServerServiceImpl implements ISendRtpServerService {
 
     @Override
     public SendRtpInfo createSendRtpInfo(MediaServer mediaServer, String ip, Integer port, String ssrc, String platformId,
-                                         String app, String stream, Integer channelId, Boolean tcp, Boolean rtcp){
+                                         String app, String stream, Long channelId, Boolean tcp, Boolean rtcp){
 
         int localPort = getNextPort(mediaServer);
         if (localPort <= 0) {
@@ -67,7 +67,7 @@ public class SendRtpServerServiceImpl implements ISendRtpServerService {
     }
 
     @Override
-    public SendRtpInfo queryByChannelId(Integer channelId, String targetId) {
+    public SendRtpInfo queryByChannelId(Long channelId, String targetId) {
         String key = VideoManagerConstants.SEND_RTP_INFO_CHANNEL + channelId;
         return JsonUtil.redisHashJsonToObject(redisTemplate, key, targetId, SendRtpInfo.class);
     }
@@ -134,7 +134,7 @@ public class SendRtpServerServiceImpl implements ISendRtpServerService {
     }
 
     @Override
-    public void deleteByChannel(Integer channelId, String targetId) {
+    public void deleteByChannel(Long channelId, String targetId) {
         SendRtpInfo sendRtpInfo = queryByChannelId(channelId, targetId);
         if (sendRtpInfo == null) {
             return;
@@ -143,7 +143,7 @@ public class SendRtpServerServiceImpl implements ISendRtpServerService {
     }
 
     @Override
-    public List<SendRtpInfo> queryByChannelId(int channelId) {
+    public List<SendRtpInfo> queryByChannelId(long channelId) {
         String key = VideoManagerConstants.SEND_RTP_INFO_CHANNEL + channelId;
         List<Object> values = redisTemplate.opsForHash().values(key);
         List<SendRtpInfo> result= new ArrayList<>();
@@ -168,7 +168,7 @@ public class SendRtpServerServiceImpl implements ISendRtpServerService {
      * 查询某个通道是否存在上级点播（RTP推送）
      */
     @Override
-    public boolean isChannelSendingRTP(Integer channelId) {
+    public boolean isChannelSendingRTP(Long channelId) {
         List<SendRtpInfo> sendRtpInfoList = queryByChannelId(channelId);
         return !sendRtpInfoList.isEmpty();
     }

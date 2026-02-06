@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.gb28181.transmit.event.request.impl.message.notify.cmd;
 
+import cn.hutool.core.date.DatePattern;
 import com.genersoft.iot.vmp.gb28181.bean.*;
 import com.genersoft.iot.vmp.gb28181.service.IDeviceChannelService;
 import com.genersoft.iot.vmp.gb28181.transmit.event.request.SIPRequestProcessorParent;
@@ -24,6 +25,7 @@ import javax.sip.RequestEvent;
 import javax.sip.SipException;
 import javax.sip.message.Response;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.genersoft.iot.vmp.gb28181.utils.XmlUtil.getText;
@@ -93,9 +95,9 @@ public class MobilePositionNotifyMessageHandler extends SIPRequestProcessorParen
                         mobilePosition.setChannelDeviceId(deviceChannel.getDeviceId());
                         String time = getText(rootElementAfterCharset, "Time");
                         if (ObjectUtils.isEmpty(time)){
-                            mobilePosition.setTime(DateUtil.getNow());
+                            mobilePosition.setTime(new Date());
                         }else {
-                            mobilePosition.setTime(SipUtils.parseTime(time));
+                            mobilePosition.setTime(cn.hutool.core.date.DateUtil.parse(time, DatePattern.UTC_SIMPLE_PATTERN));
                         }
                         mobilePosition.setLongitude(Double.parseDouble(getText(rootElementAfterCharset, "Longitude")));
                         mobilePosition.setLatitude(Double.parseDouble(getText(rootElementAfterCharset, "Latitude")));
@@ -119,7 +121,7 @@ public class MobilePositionNotifyMessageHandler extends SIPRequestProcessorParen
                         // 更新device channel 的经纬度
                         deviceChannel.setLongitude(mobilePosition.getLongitude());
                         deviceChannel.setLatitude(mobilePosition.getLatitude());
-                        deviceChannel.setGpsTime(mobilePosition.getTime());
+                        deviceChannel.setGpsTime(cn.hutool.core.date.DateUtil.format(mobilePosition.getTime(), DatePattern.UTC_SIMPLE_PATTERN));
 
                         deviceChannelService.updateChannelGPS(device, deviceChannel, mobilePosition);
 

@@ -19,7 +19,7 @@ public class StreamProxy extends CommonGBChannel {
      * 数据库自增ID
      */
     @Schema(description = "数据库自增ID")
-    private int id;
+    private long id;
 
     @Schema(description = "类型，取值，default： 流媒体直接拉流（默认），ffmpeg： ffmpeg实现拉流")
     private String type;

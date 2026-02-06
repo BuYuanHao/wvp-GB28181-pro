@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChannelListForRpcParam {
-    private List<Integer> channelIds;
+    private List<Long> channelIds;
     private Integer platformId;
 
 }

@@ -55,7 +55,7 @@ public class RecordPlanServiceImpl implements IRecordPlanService {
     @EventListener
     public void onApplicationEvent(MediaDepartureEvent event) {
         // 流断开，检查是否还处于录像状态， 如果是则继续录像
-        Integer channelId = recording(event.getApp(), event.getStream());
+        Long channelId = recording(event.getApp(), event.getStream());
         if(channelId == null) {
             return;
         }
@@ -77,23 +77,23 @@ public class RecordPlanServiceImpl implements IRecordPlanService {
         }));
     }
 
-    Map<Integer, StreamInfo> recordStreamMap = new HashMap<>();
+    Map<Long, StreamInfo> recordStreamMap = new HashMap<>();
 
     @Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
     public void execution() {
         // 查询现在需要录像的通道Id
-        List<Integer> startChannelIdList = queryCurrentChannelRecord();
+        List<Long> startChannelIdList = queryCurrentChannelRecord();
 
         if (startChannelIdList.isEmpty()) {
             // 当前没有录像任务, 如果存在旧的正在录像的就移除
             if(!recordStreamMap.isEmpty()) {
-                Set<Integer> recordStreamSet = new HashSet<>(recordStreamMap.keySet());
+                Set<Long> recordStreamSet = new HashSet<>(recordStreamMap.keySet());
                 stopStreams(recordStreamSet, recordStreamMap);
                 recordStreamMap.clear();
             }
         }else {
             // 当前存在录像任务, 获取正在录像中存在但是当前录制列表不存在的内容,进行停止; 获取正在录像中没有但是当前需录制的列表中存在的进行开启.
-            Set<Integer> recordStreamSet = new HashSet<>(recordStreamMap.keySet());
+            Set<Long> recordStreamSet = new HashSet<>(recordStreamMap.keySet());
             startChannelIdList.forEach(recordStreamSet::remove);
             if (!recordStreamSet.isEmpty()) {
                 // 正在录像中存在但是当前录制列表不存在的内容,进行停止;
@@ -128,7 +128,7 @@ public class RecordPlanServiceImpl implements IRecordPlanService {
     /**
      * 获取当前时间段应该录像的通道Id列表
      */
-    private List<Integer> queryCurrentChannelRecord(){
+    private List<Long> queryCurrentChannelRecord(){
         // 获取当前时间在一周内的序号, 数据库存储的从第几个30分钟开始, 0-47, 包括首尾
         LocalDateTime now = LocalDateTime.now();
         int week = now.getDayOfWeek().getValue();
@@ -138,8 +138,8 @@ public class RecordPlanServiceImpl implements IRecordPlanService {
         return recordPlanMapper.queryRecordIng(week, index);
     }
 
-    private void stopStreams(Collection<Integer> channelIds, Map<Integer, StreamInfo> recordStreamMap) {
-        for (Integer channelId : channelIds) {
+    private void stopStreams(Collection<Long> channelIds, Map<Long, StreamInfo> recordStreamMap) {
+        for (Long channelId : channelIds) {
             try {
                 StreamInfo streamInfo = recordStreamMap.get(channelId);
                 if (streamInfo == null) {
@@ -160,8 +160,8 @@ public class RecordPlanServiceImpl implements IRecordPlanService {
     }
 
     @Override
-    public Integer recording(String app, String stream) {
-        for (Integer channelId : recordStreamMap.keySet()) {
+    public Long recording(String app, String stream) {
+        for (Long channelId : recordStreamMap.keySet()) {
             StreamInfo streamInfo = recordStreamMap.get(channelId);
             if (streamInfo != null && streamInfo.getApp().equals(app) && streamInfo.getStream().equals(stream)) {
                 return channelId;

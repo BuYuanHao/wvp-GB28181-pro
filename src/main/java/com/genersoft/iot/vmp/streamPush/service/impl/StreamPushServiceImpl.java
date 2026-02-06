@@ -579,7 +579,7 @@ public class StreamPushServiceImpl implements IStreamPushService {
 
     @Override
     @Transactional
-    public int delete(int id) {
+    public int delete(long id) {
         StreamPush streamPush = streamPushMapper.queryOne(id);
         if (streamPush == null) {
             return 0;
@@ -601,7 +601,7 @@ public class StreamPushServiceImpl implements IStreamPushService {
         if (streamPushList.isEmpty()) {
             return;
         }
-        Set<Integer> channelIds = new HashSet<>();
+        Set<Long> channelIds = new HashSet<>();
         streamPushList.stream().forEach(streamPush -> {
             if (streamPush.getGbDeviceId() != null) {
                 channelIds.add(streamPush.getGbId());

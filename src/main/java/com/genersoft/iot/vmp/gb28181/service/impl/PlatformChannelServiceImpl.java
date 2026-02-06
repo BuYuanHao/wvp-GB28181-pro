@@ -373,7 +373,7 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
 
     @Override
     @Transactional
-    public int addChannels(Integer platformId, List<Integer> channelIds) {
+    public int addChannels(Integer platformId, List<Long> channelIds) {
         List<CommonGBChannel> channelListNotShare = platformChannelMapper.queryNotShare(platformId, channelIds);
         Assert.notEmpty(channelListNotShare, "通道已共享");
         return addChannelList(platformId, channelListNotShare);
@@ -388,7 +388,7 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
         log.info("[共享通道] 平台：{}， 通道：{}", platform.getServerGBId(), channelDeviceIds);
         if (!userSetting.getServerId().equals(platform.getServerId())) {
 
-            List<Integer> channelIdList = channelList.stream().map(CommonGBChannel::getGbId).toList();
+            List<Long> channelIdList = channelList.stream().map(CommonGBChannel::getGbId).toList();
             int result = redisRpcService.addPlatformChannelList(platform.getServerId(), new ChannelListForRpcParam(channelIdList, platformId));
             if (result > 0) {
                 log.info("[跨平台-共享通道] 成功， 平台：{}， 通道：{}", platform.getServerGBId(), channelDeviceIds);
@@ -485,14 +485,14 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
     @Override
     @Transactional
     public void addChannelByDevice(Integer platformId, List<Integer> deviceIds) {
-        List<Integer> channelList = commonGBChannelMapper.queryByGbDeviceIdsForIds(ChannelDataType.GB28181, deviceIds);
+        List<Long> channelList = commonGBChannelMapper.queryByGbDeviceIdsForIds(ChannelDataType.GB28181, deviceIds);
         addChannels(platformId, channelList);
     }
 
     @Override
     @Transactional
     public void removeChannelByDevice(Integer platformId, List<Integer> deviceIds) {
-        List<Integer> channelList = commonGBChannelMapper.queryByGbDeviceIdsForIds(ChannelDataType.GB28181, deviceIds);
+        List<Long> channelList = commonGBChannelMapper.queryByGbDeviceIdsForIds(ChannelDataType.GB28181, deviceIds);
         removeChannels(platformId, channelList);
     }
 
@@ -506,7 +506,7 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
         String channelDeviceIds = channelList.stream().map(CommonGBChannel::getGbDeviceId).collect(Collectors.joining(","));
         log.info("[取消共享通道] 平台：{}， 通道： {}", platform.getServerGBId(), channelDeviceIds);
         if (!userSetting.getServerId().equals(platform.getServerId())) {
-            List<Integer> channelIds = channelList.stream().map(CommonGBChannel::getGbId).toList();
+            List<Long> channelIds = channelList.stream().map(CommonGBChannel::getGbId).toList();
             int result = redisRpcService.removePlatformChannelList(platform.getServerId(), new ChannelListForRpcParam(channelIds, platformId));
             if (result > 0) {
                 log.info("[跨平台-取消共享通道] 成功， 平台：{}， 通道： {}", platform.getServerGBId(), channelDeviceIds);
@@ -550,7 +550,7 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
 
     @Override
     @Transactional
-    public int removeChannels(Integer platformId, List<Integer> channelIds) {
+    public int removeChannels(Integer platformId, List<Long> channelIds) {
         List<CommonGBChannel> channelList = platformChannelMapper.queryShare(platformId, channelIds);
         if (channelList.isEmpty()) {
             log.info("[移除通道] 通道列表为空");
@@ -561,7 +561,7 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
 
     @Override
     @Transactional
-    public void removeChannels(List<Integer> ids) {
+    public void removeChannels(List<Long> ids) {
         List<Platform> platformList = platformChannelMapper.queryPlatFormListByChannelList(ids);
         if (platformList.isEmpty()) {
             log.info("[移除多个通道] 未查询到通道关联的平台");
@@ -575,14 +575,14 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
 
     @Override
     @Transactional
-    public void removeChannel(int channelId) {
+    public void removeChannel(long channelId) {
         List<Platform> platformList = platformChannelMapper.queryPlatFormListByChannelId(channelId);
         if (platformList.isEmpty()) {
             log.info("[移除多个通道] 未查询到通道：{} 关联的平台", channelId);
             return;
         }
         for (Platform platform : platformList) {
-            ArrayList<Integer> ids = new ArrayList<>();
+            ArrayList<Long> ids = new ArrayList<>();
             ids.add(channelId);
             removeChannels(platform.getId(), ids);
         }
@@ -685,7 +685,7 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
     @Transactional
     public void checkGroupRemove(List<CommonGBChannel> channelList, List<Group> groupList) {
 
-        List<Integer> channelIds = new ArrayList<>();
+        List<Long> channelIds = new ArrayList<>();
         channelList.stream().forEach(commonGBChannel -> {
             channelIds.add(commonGBChannel.getGbId());
         });
@@ -725,7 +725,7 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
     @Override
     @Transactional
     public void checkRegionRemove(List<CommonGBChannel> channelList, List<Region> regionList) {
-        List<Integer> channelIds = new ArrayList<>();
+        List<Long> channelIds = new ArrayList<>();
         channelList.stream().forEach(commonGBChannel -> {
             channelIds.add(commonGBChannel.getGbId());
         });
@@ -765,7 +765,7 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
     @Override
     @Transactional
     public void checkGroupAdd(List<CommonGBChannel> channelList) {
-        List<Integer> channelIds = new ArrayList<>();
+        List<Long> channelIds = new ArrayList<>();
         channelList.stream().forEach(commonGBChannel -> {
             channelIds.add(commonGBChannel.getGbId());
         });
@@ -798,7 +798,7 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
 
     @Override
     public void checkRegionAdd(List<CommonGBChannel> channelList) {
-        List<Integer> channelIds = new ArrayList<>();
+        List<Long> channelIds = new ArrayList<>();
         channelList.stream().forEach(commonGBChannel -> {
             channelIds.add(commonGBChannel.getGbId());
         });
@@ -829,24 +829,24 @@ public class PlatformChannelServiceImpl implements IPlatformChannelService {
     }
 
     @Override
-    public List<Platform> queryPlatFormListByChannelDeviceId(Integer channelId, List<String> platforms) {
+    public List<Platform> queryPlatFormListByChannelDeviceId(Long channelId, List<String> platforms) {
         return platformChannelMapper.queryPlatFormListForGBWithGBId(channelId, platforms);
     }
 
     @Override
-    public CommonGBChannel queryChannelByPlatformIdAndChannelId(Integer platformId, Integer channelId) {
+    public CommonGBChannel queryChannelByPlatformIdAndChannelId(Integer platformId, Long channelId) {
         return platformChannelMapper.queryShareChannel(platformId, channelId);
     }
 
     @Override
-    public List<CommonGBChannel> queryChannelByPlatformIdAndChannelIds(Integer platformId, List<Integer> channelIds) {
+    public List<CommonGBChannel> queryChannelByPlatformIdAndChannelIds(Integer platformId, List<Long> channelIds) {
         return platformChannelMapper.queryShare(platformId, channelIds);
     }
 
     @Override
     public List<Platform> queryByPlatformBySharChannelId(String channelDeviceId) {
         List<CommonGBChannel> commonGBChannels = commonGBChannelMapper.queryByDeviceId(channelDeviceId);
-        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<Long> ids = new ArrayList<>();
         for (CommonGBChannel commonGBChannel : commonGBChannels) {
             ids.add(commonGBChannel.getGbId());
         }

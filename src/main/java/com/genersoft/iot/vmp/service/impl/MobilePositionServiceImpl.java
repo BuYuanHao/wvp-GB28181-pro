@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.service.impl;
 
+import cn.hutool.core.date.DatePattern;
 import com.genersoft.iot.vmp.conf.UserSetting;
 import com.genersoft.iot.vmp.gb28181.bean.Device;
 import com.genersoft.iot.vmp.gb28181.bean.DeviceChannel;
@@ -76,7 +77,7 @@ public class MobilePositionServiceImpl implements IMobilePositionService {
      */
     @Override
     public synchronized List<MobilePosition> queryMobilePositions(String deviceId, String channelId, String startTime, String endTime) {
-        return mobilePositionMapper.queryPositionByDeviceIdAndTime(deviceId, channelId, startTime, endTime);
+        return mobilePositionMapper.queryPositionByDeviceIdAndTime(deviceId, channelId, null, null);
     }
 
     @Override
@@ -104,14 +105,14 @@ public class MobilePositionServiceImpl implements IMobilePositionService {
             mobilePositionMapper.batchadd(mobilePositions);
         }
         log.info("[移动位置订阅]更新通道位置： {}", mobilePositions.size());
-        Map<String, Map<Integer, DeviceChannel>> updateChannelMap = new HashMap<>();
+        Map<String, Map<Long, DeviceChannel>> updateChannelMap = new HashMap<>();
         for (MobilePosition mobilePosition : mobilePositions) {
             DeviceChannel deviceChannel = new DeviceChannel();
             deviceChannel.setId(mobilePosition.getChannelId());
             deviceChannel.setDeviceId(mobilePosition.getDeviceId());
             deviceChannel.setLongitude(mobilePosition.getLongitude());
             deviceChannel.setLatitude(mobilePosition.getLatitude());
-            deviceChannel.setGpsTime(mobilePosition.getTime());
+            deviceChannel.setGpsTime(cn.hutool.core.date.DateUtil.format(mobilePosition.getTime(), DatePattern.UTC_SIMPLE_PATTERN));
             deviceChannel.setUpdateTime(DateUtil.getNow());
             if (mobilePosition.getLongitude() > 0 || mobilePosition.getLatitude() > 0) {
                 Double[] wgs84Position = Coordtransform.GCJ02ToWGS84(mobilePosition.getLongitude(), mobilePosition.getLatitude());
@@ -130,7 +131,7 @@ public class MobilePositionServiceImpl implements IMobilePositionService {
         }
         List<Device> deviceList = deviceMapper.queryByDeviceIds(deviceIds);
         for (Device device : deviceList) {
-            Map<Integer, DeviceChannel> channelMap = updateChannelMap.get(device.getDeviceId());
+            Map<Long, DeviceChannel> channelMap = updateChannelMap.get(device.getDeviceId());
             if (device.getGeoCoordSys().equalsIgnoreCase("GCJ02")) {
                 channelMap.values().forEach(channel -> {
                     Double[] wgs84Position = Coordtransform.GCJ02ToWGS84(channel.getLongitude(), channel.getLatitude());

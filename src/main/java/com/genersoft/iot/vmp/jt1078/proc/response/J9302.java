@@ -15,7 +15,7 @@ import lombok.Setter;
 @MsgId(id = "9302")
 public class J9302 extends Rs {
     // 逻辑通道号
-    private int channel;
+    private long channel;
 
     // 方向： 0：焦距调大； 1：焦距调小
     private int focalDirection;
@@ -23,7 +23,7 @@ public class J9302 extends Rs {
     @Override
     public ByteBuf encode() {
         ByteBuf buffer = Unpooled.buffer();
-        buffer.writeByte(channel);
+        buffer.writeLong(channel);
         buffer.writeByte(focalDirection);
         return buffer;
     }

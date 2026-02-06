@@ -29,7 +29,7 @@ public class J9206 extends Rs {
     // 文件上传路径
     private String path;
     // 逻辑通道号
-    private int channelId;
+    private long channelId;
 
     // 开始时间YYMMDDHHMMSS,全0表示无起始时间
     private String startTime;
@@ -72,7 +72,7 @@ public class J9206 extends Rs {
         buffer.writeCharSequence(password, Charset.forName("GBK"));
         buffer.writeByte(path.getBytes(Charset.forName("GBK")).length);
         buffer.writeCharSequence(path, Charset.forName("GBK"));
-        buffer.writeByte(channelId);
+        buffer.writeLong(channelId);
         buffer.writeBytes(ByteBufUtil.decodeHexDump(startTime));
         buffer.writeBytes(ByteBufUtil.decodeHexDump(endTime));
         buffer.writeLong(alarmSign);

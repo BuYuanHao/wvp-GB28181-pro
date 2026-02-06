@@ -69,7 +69,7 @@ public class CatalogEventLister implements ApplicationListener<CatalogEvent> {
                 if (!platforms.isEmpty()) {
                     for (CommonGBChannel deviceChannel : event.getChannels()) {
                         List<Platform> parentPlatformsForGB = platformChannelService.queryPlatFormListByChannelDeviceId(
-                                deviceChannel.getGbId(), platforms);
+                                Long.valueOf(deviceChannel.getGbId()), platforms);
                         platformMap.put(deviceChannel.getGbDeviceId(), parentPlatformsForGB);
                         channelMap.put(deviceChannel.getGbDeviceId(), deviceChannel);
                     }

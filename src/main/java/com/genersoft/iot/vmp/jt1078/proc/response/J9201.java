@@ -31,7 +31,7 @@ public class J9201 extends Rs {
     private int udpPort;
 
     // 逻辑通道号
-    private int channel;
+    private long channel;
 
     // 音视频资源类型：0.音视频 1.音频 2.视频 3.视频或音视频
     private int type;
@@ -61,7 +61,7 @@ public class J9201 extends Rs {
         buffer.writeCharSequence(ip, Charset.forName("GBK"));
         buffer.writeShort(tcpPort);
         buffer.writeShort(udpPort);
-        buffer.writeByte(channel);
+        buffer.writeLong(channel);
         buffer.writeByte(type);
         buffer.writeByte(rate);
         buffer.writeByte(storageType);

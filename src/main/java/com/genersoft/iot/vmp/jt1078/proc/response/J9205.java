@@ -15,7 +15,7 @@ import io.netty.buffer.Unpooled;
 @MsgId(id = "9205")
 public class J9205 extends Rs {
     // 逻辑通道号
-    private int channelId;
+    private long channelId;
 
     // 开始时间YYMMDDHHMMSS,全0表示无起始时间
     private String startTime;
@@ -39,7 +39,7 @@ public class J9205 extends Rs {
     public ByteBuf encode() {
         ByteBuf buffer = Unpooled.buffer();
 
-        buffer.writeByte(channelId);
+        buffer.writeLong(channelId);
         buffer.writeBytes(ByteBufUtil.decodeHexDump(startTime));
         buffer.writeBytes(ByteBufUtil.decodeHexDump(endTime));
         buffer.writeLong(warnType);
@@ -51,7 +51,7 @@ public class J9205 extends Rs {
     }
 
 
-    public void setChannelId(int channelId) {
+    public void setChannelId(long channelId) {
         this.channelId = channelId;
     }
 

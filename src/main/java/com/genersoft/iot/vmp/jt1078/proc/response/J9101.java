@@ -29,7 +29,7 @@ public class J9101 extends Rs {
     Integer udpPort;
 
     // 逻辑通道号
-    Integer channel;
+    Long channel;
 
     // 数据类型
     /**
@@ -50,7 +50,7 @@ public class J9101 extends Rs {
         buffer.writeCharSequence(ip, Charset.forName("GBK"));
         buffer.writeShort(tcpPort);
         buffer.writeShort(udpPort);
-        buffer.writeByte(channel);
+        buffer.writeLong(channel);
         buffer.writeByte(type);
         buffer.writeByte(rate);
         return buffer;

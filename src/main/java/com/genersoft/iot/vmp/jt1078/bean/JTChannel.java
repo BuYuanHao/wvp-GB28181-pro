@@ -22,10 +22,10 @@ public class JTChannel extends CommonGBChannel {
     private String name;
 
     @Schema(description = "设备的数据库ID")
-    private int terminalDbId;
+    private long terminalDbId;
 
     @Schema(description = "通道ID")
-    private Integer channelId;
+    private Long channelId;
 
     @Schema(description = "是否含有音频")
     private boolean hasAudio;

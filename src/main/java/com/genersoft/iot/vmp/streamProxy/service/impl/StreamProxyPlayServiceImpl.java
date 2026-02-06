@@ -51,7 +51,7 @@ public class StreamProxyPlayServiceImpl implements IStreamProxyPlayService {
     private IRedisRpcPlayService redisRpcPlayService;
 
     @Override
-    public void start(int id, Boolean record, ErrorCallback<StreamInfo> callback) {
+    public void start(long id, Boolean record, ErrorCallback<StreamInfo> callback) {
         log.info("[拉流代理]， 开始拉流，ID：{}", id);
         StreamProxy streamProxy = streamProxyMapper.select(id);
         if (streamProxy == null) {
@@ -128,7 +128,7 @@ public class StreamProxyPlayServiceImpl implements IStreamProxyPlayService {
     }
 
     @Override
-    public void stop(int id) {
+    public void stop(long id) {
         StreamProxy streamProxy = streamProxyMapper.select(id);
         if (streamProxy == null) {
             throw new ControllerException(ErrorCode.ERROR404.getCode(), "代理信息未找到");

@@ -20,7 +20,7 @@ public class SsrcTransaction {
     /**
      * 通道的数据库ID
      */
-    private Integer channelId;
+    private Long channelId;
 
     /**
      * 会话的CALL ID
@@ -57,7 +57,7 @@ public class SsrcTransaction {
      */
     private InviteSessionType type;
 
-    public static SsrcTransaction buildForDevice(String deviceId, Integer channelId, String callId, String app, String stream,
+    public static SsrcTransaction buildForDevice(String deviceId, Long channelId, String callId, String app, String stream,
                                                  String ssrc, String mediaServerId, SIPResponse response, InviteSessionType type) {
         SsrcTransaction ssrcTransaction = new SsrcTransaction();
         ssrcTransaction.setDeviceId(deviceId);
@@ -71,7 +71,7 @@ public class SsrcTransaction {
         ssrcTransaction.setType(type);
         return ssrcTransaction;
     }
-    public static SsrcTransaction buildForPlatform(String platformId, Integer channelId, String callId, String app,String stream,
+    public static SsrcTransaction buildForPlatform(String platformId, Long channelId, String callId, String app,String stream,
                                                  String ssrc, String mediaServerId, SIPResponse response, InviteSessionType type) {
         SsrcTransaction ssrcTransaction = new SsrcTransaction();
         ssrcTransaction.setPlatformId(platformId);

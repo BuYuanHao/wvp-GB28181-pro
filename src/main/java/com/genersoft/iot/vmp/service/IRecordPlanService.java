@@ -27,5 +27,5 @@ public interface IRecordPlanService {
 
     void cleanAll(Integer planId);
 
-    Integer recording(String app, String stream);
+    Long recording(String app, String stream);
 }

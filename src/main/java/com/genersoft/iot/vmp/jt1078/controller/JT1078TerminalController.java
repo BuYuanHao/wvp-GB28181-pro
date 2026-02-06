@@ -66,7 +66,7 @@ public class JT1078TerminalController {
     @Operation(summary = "查询设备", security = @SecurityRequirement(name = JwtUtils.HEADER))
     @Parameter(name = "phoneNumber", description = "设备手机号", required = true)
     @GetMapping("/query")
-    public JTDevice getDevice(Integer deviceId){
+    public JTDevice getDevice(Long deviceId){
         return service.getDeviceById(deviceId);
     }
 
@@ -87,7 +87,7 @@ public class JT1078TerminalController {
     @Operation(summary = "JT-查询单个部标通道", security = @SecurityRequirement(name = JwtUtils.HEADER))
     @Parameter(name = "id", description = "通道数据库ID", required = true)
     @GetMapping("/channel/one")
-    public JTChannel getChannel(Integer id) {
+    public JTChannel getChannel(Long id) {
         assert id != null;
         return service.getChannelByDbId(id);
     }
@@ -113,7 +113,7 @@ public class JT1078TerminalController {
     @Operation(summary = "JT-删除通道", security = @SecurityRequirement(name = JwtUtils.HEADER))
     @Parameter(name = "id", description = "通道的数据库ID", required = true)
     @DeleteMapping("/channel/delete")
-    public void deleteChannel(Integer id){
+    public void deleteChannel(Long id){
         service.deleteChannelById(id);
     }
 }

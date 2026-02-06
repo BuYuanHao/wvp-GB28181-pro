@@ -160,15 +160,15 @@ public interface IDeviceService {
 
     PageInfo<Device> getAll(int page, int count, String query, Boolean status);
 
-    Device getDevice(Integer gbDeviceDbId);
+    Device getDevice(Long gbDeviceDbId);
 
-    Device getDeviceByChannelId(Integer channelId);
+    Device getDeviceByChannelId(Long channelId);
 
     Device getDeviceBySourceChannelDeviceId(String requesterId);
 
-    void subscribeCatalog(int id, int cycle);
+    void subscribeCatalog(long id, int cycle);
 
-    void subscribeMobilePosition(int id, int cycle, int interval);
+    void subscribeMobilePosition(long id, int cycle, int interval);
 
     WVPResult<SyncStatus> devicesSync(Device device);
 

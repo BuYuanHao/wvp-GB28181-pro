@@ -64,7 +64,7 @@ public class JT1078Controller {
     @GetMapping("/live/start")
     public DeferredResult<WVPResult<StreamContent>> startLive(HttpServletRequest request,
                                                               @Parameter(required = true) String phoneNumber,
-                                                              @Parameter(required = true) Integer channelId,
+                                                              @Parameter(required = true) Long channelId,
                                                               @Parameter(required = false) Integer type) {
         if (type == null || (type != 0 && type != 1 && type != 3)) {
             type = 0;
@@ -114,7 +114,7 @@ public class JT1078Controller {
     @GetMapping("/live/stop")
     public void stopLive(HttpServletRequest request,
                                                               @Parameter(required = true) String phoneNumber,
-                                                              @Parameter(required = true) Integer channelId) {
+                                                              @Parameter(required = true) Long channelId) {
         jt1078PlayService.stopPlay(phoneNumber, channelId);
     }
 
@@ -124,7 +124,7 @@ public class JT1078Controller {
     @GetMapping("/talk/start")
     public StreamContent startTalk(HttpServletRequest request,
                          @Parameter(required = true) String phoneNumber,
-                         @Parameter(required = true) Integer channelId) {
+                         @Parameter(required = true) Long channelId) {
 
         StreamInfo streamInfo = jt1078PlayService.startTalk(phoneNumber, channelId);
         if (userSetting.getUseSourceIpAsStreamIp()) {
@@ -147,7 +147,7 @@ public class JT1078Controller {
     @GetMapping("/talk/stop")
     public void stopTalk(HttpServletRequest request,
                          @Parameter(required = true) String phoneNumber,
-                         @Parameter(required = true) Integer channelId) {
+                         @Parameter(required = true) Long channelId) {
         jt1078PlayService.stopTalk(phoneNumber, channelId);
     }
 
@@ -158,7 +158,7 @@ public class JT1078Controller {
     @GetMapping("/live/pause")
     public void pauseLive(HttpServletRequest request,
                          @Parameter(required = true) String phoneNumber,
-                         @Parameter(required = true) Integer channelId) {
+                         @Parameter(required = true) Long channelId) {
         jt1078PlayService.pausePlay(phoneNumber, channelId);
     }
 
@@ -168,7 +168,7 @@ public class JT1078Controller {
     @GetMapping("/live/continue")
     public void continueLive(HttpServletRequest request,
                           @Parameter(required = true) String phoneNumber,
-                          @Parameter(required = true) Integer channelId) {
+                          @Parameter(required = true) Long channelId) {
 
         jt1078PlayService.continueLivePlay(phoneNumber, channelId);
     }
@@ -180,7 +180,7 @@ public class JT1078Controller {
     @GetMapping("/live/switch")
     public void changeStreamType(HttpServletRequest request,
                              @Parameter(required = true) String phoneNumber,
-                             @Parameter(required = true) Integer channelId,
+                             @Parameter(required = true) Long channelId,
                              @Parameter(required = true) Integer streamType) {
         service.changeStreamType(phoneNumber, channelId, streamType);
     }
@@ -193,7 +193,7 @@ public class JT1078Controller {
     @GetMapping("/record/list")
     public WVPResult<List<J1205.JRecordItem>> playbackList(HttpServletRequest request,
                                                                      @Parameter(required = true) String phoneNumber,
-                                                                     @Parameter(required = true) Integer channelId,
+                                                                     @Parameter(required = true) Long channelId,
                                                                      @Parameter(required = true) String startTime,
                                                                      @Parameter(required = true) String endTime
     ) {
@@ -216,7 +216,7 @@ public class JT1078Controller {
     @GetMapping("/playback/start")
     public DeferredResult<WVPResult<StreamContent>> recordLive(HttpServletRequest request,
                                                               @Parameter(required = true) String phoneNumber,
-                                                              @Parameter(required = true) Integer channelId,
+                                                              @Parameter(required = true) Long channelId,
                                                               @Parameter(required = true) String startTime,
                                                               @Parameter(required = true) String endTime,
                                                               @Parameter(required = false) Integer type,
@@ -270,7 +270,7 @@ public class JT1078Controller {
     @Parameter(name = "time", description = "拖动回放位置(时间)", required = false)
     @GetMapping("/playback/control")
     public void recordControl(@Parameter(required = true) String phoneNumber,
-                              @Parameter(required = true) Integer channelId,
+                              @Parameter(required = true) Long channelId,
                               @Parameter(required = false) Integer command,
                               @Parameter(required = false) String time,
                               @Parameter(required = false) Integer playbackSpeed
@@ -285,7 +285,7 @@ public class JT1078Controller {
     @GetMapping("/playback/stop")
     public void stopPlayback(HttpServletRequest request,
                          @Parameter(required = true) String phoneNumber,
-                         @Parameter(required = true) Integer channelId) {
+                         @Parameter(required = true) Long channelId) {
         jt1078PlayService.stopPlayback(phoneNumber, channelId);
     }
 
@@ -301,7 +301,7 @@ public class JT1078Controller {
     @GetMapping("/playback/downloadUrl")
     public String getRecordTempUrl(HttpServletRequest request,
                                    @Parameter(required = true) String phoneNumber,
-                                   @Parameter(required = true) Integer channelId,
+                                   @Parameter(required = true) Long channelId,
                                    @Parameter(required = true) String startTime,
                                    @Parameter(required = true) String endTime,
                                    @Parameter(required = false) Integer alarmSign,
@@ -340,7 +340,7 @@ public class JT1078Controller {
     @Parameter(name = "command", description = "控制指令,允许值: left, right, up, down, zoomin, zoomout, irisin, irisout, focusnear, focusfar, stop", required = true)
     @Parameter(name = "speed", description = "速度(0-255)， command,值 left, right, up, down时有效", required = true)
     @GetMapping("/ptz")
-    public void ptz(String phoneNumber, Integer channelId, String command, int speed){
+    public void ptz(String phoneNumber, Long channelId, String command, int speed){
 
         log.info("[JT-云台控制] phoneNumber：{}, channelId：{}, command: {}, speed: {}", phoneNumber, channelId, command, speed);
         service.ptzControl(phoneNumber, channelId, command, speed);
@@ -351,7 +351,7 @@ public class JT1078Controller {
     @Parameter(name = "channelId", description = "通道国标编号, 一般为从1开始的数字", required = true)
     @Parameter(name = "command", description = "控制指令,允许值: on off", required = true)
     @GetMapping("/fill-light")
-    public void fillLight(String phoneNumber, Integer channelId, String command){
+    public void fillLight(String phoneNumber, Long channelId, String command){
 
         log.info("[JT-补光灯开关] phoneNumber：{}, channelId：{}, command: {}", phoneNumber, channelId, command);
         service.supplementaryLight(phoneNumber, channelId, command);
@@ -362,7 +362,7 @@ public class JT1078Controller {
     @Parameter(name = "channelId", description = "通道国标编号, 一般为从1开始的数字", required = true)
     @Parameter(name = "command", description = "控制指令,允许值: on off", required = true)
     @GetMapping("/wiper")
-    public void wiper(String phoneNumber, Integer channelId, String command){
+    public void wiper(String phoneNumber, Long channelId, String command){
 
         log.info("[JT-雨刷开关] phoneNumber：{}, channelId：{}, command: {}", phoneNumber, channelId, command);
         service.wiper(phoneNumber, channelId, command);
@@ -818,7 +818,7 @@ public class JT1078Controller {
     @Parameter(name = "phoneNumber", description = "设备编号", required = true)
     @Parameter(name = "channelId", description = "通道编号", required = true)
     @GetMapping("/snap")
-    public void snap(HttpServletResponse response, String phoneNumber, Integer channelId){
+    public void snap(HttpServletResponse response, String phoneNumber, Long channelId){
 
         log.info("[JT-抓图] 设备编号: {}, 通道编号: {}", phoneNumber, channelId );
         Assert.notNull(channelId, "缺少通道编号");

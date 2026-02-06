@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Element;
+import org.springframework.data.annotation.Transient;
 import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,7 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 public class DeviceChannel extends CommonGBChannel {
 
 	@Schema(description = "数据库自增ID")
-	private int id;
+	private Long id;
 
 	@Schema(description = "父设备编码")
 	private String parentDeviceId;
@@ -190,7 +191,9 @@ public class DeviceChannel extends CommonGBChannel {
 
 	@Schema(description = "通道类型， 默认0, 0： 普通通道，1 行政区划 2 业务分组/虚拟组织")
 	private int channelType;
-
+	@Schema(description ="相机类型，0-普通相机，1-高点，2-无人机")
+	@Transient
+	private int type;
 	private Integer dataType = ChannelDataType.GB28181;
 
 	public void setPtzType(int ptzType) {

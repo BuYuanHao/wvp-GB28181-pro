@@ -2,6 +2,8 @@ package com.genersoft.iot.vmp.gb28181.bean;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @description: 移动位置bean
  * @author: lawrencehj
@@ -18,7 +20,7 @@ public class MobilePosition {
     /**
      * 通道Id
      */
-    private Integer channelId;
+    private Long channelId;
 
     /**
      * 通道国标编号
@@ -33,7 +35,7 @@ public class MobilePosition {
     /**
      * 通知时间
      */
-    private String time;
+    private Date time;
 
     /**
      * 经度

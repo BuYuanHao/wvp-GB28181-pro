@@ -97,7 +97,7 @@ public class RedisRpcServiceImpl implements IRedisRpcService {
     }
 
     @Override
-    public long waitePushStreamOnline(SendRtpInfo sendRtpItem, CommonCallback<Integer> callback) {
+    public long waitePushStreamOnline(SendRtpInfo sendRtpItem, CommonCallback<Long> callback) {
         log.info("[请求所有WVP监听流上线] {}/{}", sendRtpItem.getApp(), sendRtpItem.getStream());
         // 监听流上线。 流上线直接发送sendRtpItem消息给实际的信令处理者
         Hook hook = Hook.getInstance(HookType.on_media_arrival, sendRtpItem.getApp(), sendRtpItem.getStream(), null);
@@ -130,7 +130,7 @@ public class RedisRpcServiceImpl implements IRedisRpcService {
             log.info("[请求所有WVP监听流上线] 流上线 {}/{}->{}", sendRtpItem.getApp(), sendRtpItem.getStream(), sendRtpItem.toString());
 
             if (callback != null) {
-                callback.run(Integer.parseInt(response.getBody().toString()));
+                callback.run(Long.parseLong(response.getBody().toString()));
             }
             hookSubscribe.removeSubscribe(hook);
         });
@@ -210,7 +210,7 @@ public class RedisRpcServiceImpl implements IRedisRpcService {
     }
 
     @Override
-    public void subscribeCatalog(int id, int cycle) {
+    public void subscribeCatalog(long id, int cycle) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);
         jsonObject.put("cycle", cycle);
@@ -219,7 +219,7 @@ public class RedisRpcServiceImpl implements IRedisRpcService {
     }
 
     @Override
-    public void subscribeMobilePosition(int id, int cycle, int interval) {
+    public void subscribeMobilePosition(long id, int cycle, int interval) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);
         jsonObject.put("cycle", cycle);

@@ -19,7 +19,7 @@ import lombok.Setter;
 public class J9102 extends Rs {
 
     // 通道号
-    Integer channel;
+    Long channel;
 
     // 控制指令
     /**
@@ -51,7 +51,7 @@ public class J9102 extends Rs {
     @Override
     public ByteBuf encode() {
         ByteBuf buffer = Unpooled.buffer();
-        buffer.writeByte(channel);
+        buffer.writeLong(channel);
         buffer.writeByte(command);
         buffer.writeByte(closeType);
         buffer.writeByte(streamType);

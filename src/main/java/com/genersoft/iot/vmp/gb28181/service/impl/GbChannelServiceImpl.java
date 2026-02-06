@@ -143,7 +143,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
 
     @Override
     @Transactional
-    public int delete(int gbId) {
+    public int delete(long gbId) {
         // 移除国标级联关联的信息
         try {
             platformChannelService.removeChannel(gbId);
@@ -166,7 +166,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
 
     @Override
     @Transactional
-    public void delete(Collection<Integer> ids) {
+    public void delete(Collection<Long> ids) {
         // 移除国标级联关联的信息
         try {
             platformChannelService.removeChannels(new ArrayList<>(ids));
@@ -216,7 +216,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
                     mobilePosition.setChannelDeviceId(newChannel.getGbDeviceId());
                     mobilePosition.setDeviceName(newChannel.getGbName());
                     mobilePosition.setCreateTime(DateUtil.getNow());
-                    mobilePosition.setTime(DateUtil.getNow());
+                    mobilePosition.setTime(new Date());
                     mobilePosition.setLongitude(newChannel.getGbLongitude());
                     mobilePosition.setLatitude(newChannel.getGbLatitude());
                     eventPublisher.mobilePositionEventPublish(mobilePosition);
@@ -428,7 +428,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
 
 
     @Override
-    public CommonGBChannel getOne(int id) {
+    public CommonGBChannel getOne(Long id) {
         return commonGBChannelMapper.queryById(id);
     }
 
@@ -466,7 +466,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
     }
 
     @Override
-    public void reset(int id, List<String> chanelFields) {
+    public void reset(long id, List<String> chanelFields) {
         log.info("[重置国标通道] id: {}", id);
         Assert.notEmpty(chanelFields, "待重置字段为空");
         CommonGBChannel channel = getOne(id);
@@ -532,7 +532,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
     }
 
     @Override
-    public void addChannelToRegion(String civilCode, List<Integer> channelIds) {
+    public void addChannelToRegion(String civilCode, List<Long> channelIds) {
         List<CommonGBChannel> channelList = commonGBChannelMapper.queryByIds(channelIds);
         if (channelList.isEmpty()) {
             throw new ControllerException(ErrorCode.ERROR100.getCode(), "所有通道Id不存在");
@@ -556,7 +556,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
 
     @Override
     @Transactional
-    public void deleteChannelToRegion(String civilCode, List<Integer> channelIds) {
+    public void deleteChannelToRegion(String civilCode, List<Long> channelIds) {
         if (!ObjectUtils.isEmpty(civilCode)) {
             deleteChannelToRegionByCivilCode(civilCode);
         }
@@ -592,7 +592,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
     }
 
     @Override
-    public void deleteChannelToRegionByChannelIds(List<Integer> channelIds) {
+    public void deleteChannelToRegionByChannelIds(List<Long> channelIds) {
         List<CommonGBChannel> channelList = commonGBChannelMapper.queryByIds(channelIds);
         if (channelList.isEmpty()) {
             throw new ControllerException(ErrorCode.ERROR100.getCode(), "所有通道Id不存在");
@@ -612,7 +612,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
     }
 
     @Override
-    public void addChannelToRegionByGbDevice(String civilCode, List<Integer> deviceIds) {
+    public void addChannelToRegionByGbDevice(String civilCode, List<Long> deviceIds) {
         List<CommonGBChannel> channelList = commonGBChannelMapper.queryByDataTypeAndDeviceIds(ChannelDataType.GB28181, deviceIds);
         if (channelList.isEmpty()) {
             throw new ControllerException(ErrorCode.ERROR100.getCode(), "所有通道Id不存在");
@@ -634,7 +634,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
     }
 
     @Override
-    public void deleteChannelToRegionByGbDevice(List<Integer> deviceIds) {
+    public void deleteChannelToRegionByGbDevice(List<Long> deviceIds) {
         List<CommonGBChannel> channelList = commonGBChannelMapper.queryByDataTypeAndDeviceIds(ChannelDataType.GB28181, deviceIds);
         if (channelList.isEmpty()) {
             throw new ControllerException(ErrorCode.ERROR100.getCode(), "所有通道Id不存在");
@@ -711,7 +711,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
 
     @Override
     @Transactional
-    public void addChannelToGroup(String parentId, String businessGroup, List<Integer> channelIds) {
+    public void addChannelToGroup(String parentId, String businessGroup, List<Long> channelIds) {
         List<CommonGBChannel> channelList = commonGBChannelMapper.queryByIds(channelIds);
         if (channelList.isEmpty()) {
             throw new ControllerException(ErrorCode.ERROR100.getCode(), "所有通道Id不存在");
@@ -736,7 +736,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
     }
 
     @Override
-    public void deleteChannelToGroup(String parentId, String businessGroup, List<Integer> channelIds) {
+    public void deleteChannelToGroup(String parentId, String businessGroup, List<Long> channelIds) {
         List<CommonGBChannel> channelList = commonGBChannelMapper.queryByIds(channelIds);
         if (channelList.isEmpty()) {
             throw new ControllerException(ErrorCode.ERROR100.getCode(), "所有通道Id不存在");
@@ -755,7 +755,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
 
     @Override
     @Transactional
-    public void addChannelToGroupByGbDevice(String parentId, String businessGroup, List<Integer> deviceIds) {
+    public void addChannelToGroupByGbDevice(String parentId, String businessGroup, List<Long> deviceIds) {
         List<CommonGBChannel> channelList = commonGBChannelMapper.queryByDataTypeAndDeviceIds(ChannelDataType.GB28181, deviceIds);
         if (channelList.isEmpty()) {
             throw new ControllerException(ErrorCode.ERROR100.getCode(), "所有通道Id不存在");
@@ -785,7 +785,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
     }
 
     @Override
-    public void deleteChannelToGroupByGbDevice(List<Integer> deviceIds) {
+    public void deleteChannelToGroupByGbDevice(List<Long> deviceIds) {
         List<CommonGBChannel> channelList = commonGBChannelMapper.queryByDataTypeAndDeviceIds(ChannelDataType.GB28181, deviceIds);
         if (channelList.isEmpty()) {
             throw new ControllerException(ErrorCode.ERROR100.getCode(), "所有通道Id不存在");
@@ -857,9 +857,9 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
     }
 
     @Override
-    public void clearChannelCivilCode(Boolean all, List<Integer> channelIds) {
+    public void clearChannelCivilCode(Boolean all, List<Long> channelIds) {
 
-        List<Integer> channelIdsForClear;
+        List<Long> channelIdsForClear;
         if (all != null && all) {
             channelIdsForClear = commonGBChannelMapper.queryAllForUnusualCivilCode();
         }else {
@@ -881,8 +881,8 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
     }
 
     @Override
-    public void clearChannelParent(Boolean all, List<Integer> channelIds) {
-        List<Integer> channelIdsForClear;
+    public void clearChannelParent(Boolean all, List<Long> channelIds) {
+        List<Long> channelIdsForClear;
         if (all != null && all) {
             channelIdsForClear = commonGBChannelMapper.queryAllForUnusualParent();
         }else {
@@ -1055,7 +1055,7 @@ public class GbChannelServiceImpl implements IGbChannelService, CommandLineRunne
                 Map<Integer, Collection<CommonGBChannel>> zoomCameraMap = new HashMap<>();
 
                 // 冗余一份已经处理过的摄像头的数据， 避免多次循环获取
-                Map<Integer, CommonGBChannel> useCameraMap = new HashMap<>();
+                Map<Long, CommonGBChannel> useCameraMap = new HashMap<>();
                 AtomicReference<Double> process = new AtomicReference<>((double) 0);
                 for (Integer zoom : zoomParam.keySet()) {
 

@@ -37,7 +37,7 @@ public interface StreamPushMapper {
     int update(StreamPush streamPushItem);
 
     @Delete("DELETE FROM wvp_stream_push WHERE id=#{id}")
-    int del(@Param("id") int id);
+    int del(@Param("id") long id);
 
     @Select(value = {" <script>" +
             " SELECT " +
@@ -120,7 +120,7 @@ public interface StreamPushMapper {
     Map<String, StreamPush> getAllGBId();
 
     @Select("SELECT st.*, st.id as data_device_id, wdc.*, wdc.id as gb_id FROM wvp_stream_push st LEFT join wvp_device_channel wdc on wdc.data_type = 2 and st.id = wdc.data_device_id WHERE st.id=#{id}")
-    StreamPush queryOne(@Param("id") int id);
+    StreamPush queryOne(@Param("id") long id);
 
     @Select("<script> "+
             "SELECT st.*, st.id as data_device_id, wdc.*, wdc.id as gb_id FROM wvp_stream_push st LEFT join wvp_device_channel wdc on wdc.data_type = 2 and st.id = wdc.data_device_id " +

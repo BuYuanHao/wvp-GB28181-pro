@@ -8,14 +8,14 @@ import java.util.List;
 public interface ISendRtpServerService {
 
     SendRtpInfo createSendRtpInfo(MediaServer mediaServer, String ip, Integer port, String ssrc, String requesterId,
-                                  String deviceId, Integer channelId, Boolean isTcp, Boolean rtcp);
+                                  String deviceId, Long channelId, Boolean isTcp, Boolean rtcp);
 
     SendRtpInfo createSendRtpInfo(MediaServer mediaServer, String ip, Integer port, String ssrc, String platformId,
-                                  String app, String stream, Integer channelId, Boolean tcp, Boolean rtcp);
+                                  String app, String stream, Long channelId, Boolean tcp, Boolean rtcp);
 
     void update(SendRtpInfo sendRtpItem);
 
-    SendRtpInfo queryByChannelId(Integer channelId, String targetId);
+    SendRtpInfo queryByChannelId(Long channelId, String targetId);
 
     SendRtpInfo queryByCallId(String callId);
 
@@ -29,15 +29,15 @@ public interface ISendRtpServerService {
 
     void deleteByStream(String Stream, String targetId);
 
-    void deleteByChannel(Integer channelId, String targetId);
+    void deleteByChannel(Long channelId, String targetId);
 
     List<SendRtpInfo> queryAll();
 
-    boolean isChannelSendingRTP(Integer channelId);
+    boolean isChannelSendingRTP(Long channelId);
 
     List<SendRtpInfo> queryForPlatform(String platformId);
 
-    List<SendRtpInfo> queryByChannelId(int id);
+    List<SendRtpInfo> queryByChannelId(long id);
 
     void deleteByStream(String stream);
 

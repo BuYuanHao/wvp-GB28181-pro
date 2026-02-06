@@ -16,7 +16,7 @@ import lombok.Setter;
 @MsgId(id = "9301")
 public class J9301 extends Rs {
     // 逻辑通道号
-    private int channel;
+    private long channel;
 
     // 方向： 0：停止； 1：上； 2：下； 3：左； 4：右
     private int direction;
@@ -27,7 +27,7 @@ public class J9301 extends Rs {
     @Override
     public ByteBuf encode() {
         ByteBuf buffer = Unpooled.buffer();
-        buffer.writeByte(channel);
+        buffer.writeLong(channel);
         buffer.writeByte(direction);
         buffer.writeByte(speed);
         return buffer;

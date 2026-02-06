@@ -17,7 +17,7 @@ public class UpdateChannelParam {
     private boolean all;
 
     @Schema(description = "待关联的通道ID")
-    List<Integer> channelIds;
+    List<Long> channelIds;
 
     @Schema(description = "待关联的设备ID")
     List<Integer> deviceIds;

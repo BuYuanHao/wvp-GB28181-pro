@@ -14,30 +14,30 @@ public interface Ijt1078PlayService {
 
     JTMediaStreamType checkStreamFromJt(String stream);
 
-    void play(String phoneNumber, Integer channelId, int type, CommonCallback<WVPResult<StreamInfo>> callback);
+    void play(String phoneNumber, Long channelId, int type, CommonCallback<WVPResult<StreamInfo>> callback);
 
-    void playback(String phoneNumber, Integer channelId, String startTime, String endTime, Integer type,
+    void playback(String phoneNumber, Long channelId, String startTime, String endTime, Integer type,
                   Integer rate, Integer playbackType, Integer playbackSpeed, CommonCallback<WVPResult<StreamInfo>> callback);
 
-    void stopPlay(String phoneNumber, Integer channelId);
+    void stopPlay(String phoneNumber, Long channelId);
 
-    void pausePlay(String phoneNumber, Integer channelId);
+    void pausePlay(String phoneNumber, Long channelId);
 
-    void continueLivePlay(String phoneNumber, Integer channelId);
+    void continueLivePlay(String phoneNumber, Long channelId);
 
-    List<J1205.JRecordItem> getRecordList(String phoneNumber, Integer channelId, String startTime, String endTime);
+    List<J1205.JRecordItem> getRecordList(String phoneNumber, Long channelId, String startTime, String endTime);
 
-    void stopPlayback(String phoneNumber, Integer channelId);
+    void stopPlayback(String phoneNumber, Long channelId);
 
-    StreamInfo startTalk(String phoneNumber, Integer channelId);
+    StreamInfo startTalk(String phoneNumber, Long channelId);
 
-    void stopTalk(String phoneNumber, Integer channelId);
+    void stopTalk(String phoneNumber, Long channelId);
 
-    void playbackControl(String phoneNumber, Integer channelId, Integer command, Integer playbackSpeed, String time);
+    void playbackControl(String phoneNumber, Long channelId, Integer command, Integer playbackSpeed, String time);
 
-    void start(Integer channelId, Boolean record, ErrorCallback<StreamInfo> callback);
+    void start(Long channelId, Boolean record, ErrorCallback<StreamInfo> callback);
 
-    void stop(Integer channelId);
+    void stop(Long channelId);
 
-    void playBack(Integer channelId, Long startTime, Long stopTime, ErrorCallback<StreamInfo> callback);
+    void playBack(Long channelId, Long startTime, Long stopTime, ErrorCallback<StreamInfo> callback);
 }
