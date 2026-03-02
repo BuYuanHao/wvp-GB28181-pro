@@ -8,6 +8,7 @@ import com.genersoft.iot.vmp.conf.security.JwtUtils;
 import com.genersoft.iot.vmp.gb28181.bean.Device;
 import com.genersoft.iot.vmp.gb28181.bean.DeviceChannel;
 import com.genersoft.iot.vmp.gb28181.bean.SyncStatus;
+import com.genersoft.iot.vmp.gb28181.controller.bean.ChannelVo1;
 import com.genersoft.iot.vmp.gb28181.service.IDeviceChannelService;
 import com.genersoft.iot.vmp.gb28181.service.IDeviceService;
 import com.genersoft.iot.vmp.gb28181.service.IInviteStreamService;
@@ -111,6 +112,25 @@ public class DeviceQuery {
 		}
 
 		return deviceChannelService.queryChannelsByDeviceId(deviceId, query, channelType, online, page, count);
+	}
+	@GetMapping("/devices/{deviceId}/channelsOld")
+	@Operation(summary = "分页查询通道", security = @SecurityRequirement(name = JwtUtils.HEADER))
+	@Parameter(name = "deviceId", description = "设备国标编号", required = true)
+	@Parameter(name = "page", description = "当前页", required = true)
+	@Parameter(name = "count", description = "每页查询数量", required = true)
+	@Parameter(name = "query", description = "查询内容")
+	@Parameter(name = "online", description = "是否在线")
+	@Parameter(name = "channelType", description = "设备/子目录-> false/true")
+	public PageInfo<ChannelVo1> channelsOld(@PathVariable String deviceId,
+											int page, int count,
+											@RequestParam(required = false) String query,
+											@RequestParam(required = false) Boolean online,
+											@RequestParam(required = false) Boolean channelType) {
+		if (ObjectUtils.isEmpty(query)) {
+			query = null;
+		}
+
+		return deviceChannelService.queryChannelsOld(deviceId, query, channelType, online, null, page, count);
 	}
 
 	@GetMapping("/streams")

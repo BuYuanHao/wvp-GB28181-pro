@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.gb28181.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.genersoft.iot.vmp.common.InviteInfo;
 import com.genersoft.iot.vmp.common.InviteSessionType;
 import com.genersoft.iot.vmp.common.enums.ChannelDataType;
@@ -7,6 +8,7 @@ import com.genersoft.iot.vmp.common.enums.DeviceControlType;
 import com.genersoft.iot.vmp.conf.UserSetting;
 import com.genersoft.iot.vmp.conf.exception.ControllerException;
 import com.genersoft.iot.vmp.gb28181.bean.*;
+import com.genersoft.iot.vmp.gb28181.controller.bean.ChannelVo1;
 import com.genersoft.iot.vmp.gb28181.dao.DeviceChannelMapper;
 import com.genersoft.iot.vmp.gb28181.dao.DeviceMapper;
 import com.genersoft.iot.vmp.gb28181.dao.DeviceMobilePositionMapper;
@@ -48,6 +50,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.genersoft.iot.vmp.gb28181.utils.XmlUtil.getText;
 
@@ -682,4 +685,47 @@ public class DeviceChannelServiceImpl implements IDeviceChannelService {
         queryRecordInfo(device, deviceChannel, startTime, endTime, callback);
 
     }
+
+    @Override
+    public PageInfo<ChannelVo1> queryChannelsOld(String deviceId, String query, Boolean channelType, Boolean online, Object o, int page, int count) {
+
+        Device device = deviceMapper.getDeviceByDeviceId(deviceId);
+        if(device == null){
+            return  new PageInfo<>();
+        }
+        PageHelper.startPage(page, count);
+        List<DeviceChannel> deviceChannels = channelMapper.queryChannelsAll(device.getId(), null, null, null, query, null, null, online, null, null);
+
+        PageInfo<DeviceChannel> objectPageInfo = new PageInfo<>(deviceChannels);
+        PageInfo<ChannelVo1> pages1 = new PageInfo<>();
+        BeanUtil.copyProperties(objectPageInfo,pages1,"list");
+        pages1.setList(objectPageInfo.getList().stream().map(deviceChannel -> toChannelVo1(deviceChannel, deviceId)).collect(Collectors.toList()));
+        return pages1;
+    }
+    public ChannelVo1  toChannelVo1(DeviceChannel deviceChannel,String deviceId){
+        ChannelVo1 channelVo1 = new ChannelVo1();
+        channelVo1.setId(deviceChannel.getId());
+        channelVo1.setChannelid(deviceChannel.getDeviceId());
+        channelVo1.setParentName(deviceChannel.getParentName());
+        channelVo1.setDeviceid(deviceId);
+        channelVo1.setName(deviceChannel.getName());
+        channelVo1.setParental(deviceChannel.getParental());
+        channelVo1.setParentid(deviceChannel.getParentId());
+        channelVo1.setIpaddress(deviceChannel.getIpAddress());
+        channelVo1.setPTZType(deviceChannel.getPtzType());
+
+        channelVo1.setStatus((deviceChannel.getStatus()==null||deviceChannel.getStatus().equals("OFF"))? 0:1);
+        channelVo1.setLongitude(deviceChannel.getLongitude());
+        channelVo1.setLatitude(deviceChannel.getLatitude());
+
+        channelVo1.setSubcount(deviceChannel.getSubCount());
+        channelVo1.setStreamId(deviceChannel.getStreamId());
+        channelVo1.setHasAudio(deviceChannel.isHasAudio());
+        channelVo1.setChannelType(deviceChannel.getChannelType());
+        channelVo1.setBusinessGroupId(deviceChannel.getBusinessGroupId());
+        channelVo1.setGpsTime(deviceChannel.getGpsTime());
+        return channelVo1;
+
+    }
+
 }

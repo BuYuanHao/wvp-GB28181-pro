@@ -611,4 +611,10 @@ public interface DeviceChannelMapper {
     void offlineByDeviceId(@Param("deviceId") long deviceId);
 
 
+    @SelectProvider(type = DeviceChannelProvider.class, method = "queryChannelsAll")
+    List<DeviceChannel> queryChannelsAll(@Param("dataDeviceId") Long dataDeviceId, @Param("civilCode") String civilCode,
+                                         @Param("businessGroupId") String businessGroupId, @Param("parentChannelId") String parentChannelId,
+                                         @Param("query") String query, @Param("queryParent") Boolean queryParent,
+                                         @Param("hasSubChannel") Boolean hasSubChannel, @Param("online") Boolean online,
+                                         @Param("channelIds") List<String> channelIds, @Param("hasStream") Boolean hasStream);
 }

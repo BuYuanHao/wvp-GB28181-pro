@@ -152,6 +152,7 @@ public class CatalogResponseMessageHandler extends SIPRequestProcessorParent imp
                             if (channel.getParentId() != null && channel.getParentId().equals(sipConfig.getId())) {
                                 channel.setParentId(null);
                             }
+                            channel.setParentId(channel.getParentId().replace(take.getDevice().getDeviceId()+"/",""));
                             // 解析通道类型
                             if (channel.getDeviceId().length() <= 8) {
                                 // 行政区划
@@ -177,7 +178,7 @@ public class CatalogResponseMessageHandler extends SIPRequestProcessorParent imp
 
                         catalogDataCatch.put(take.getDevice().getDeviceId(), sn, sumNum, take.getDevice(),
                                 channelList, regionList, groupList);
-                        log.info("[收到通道]设备: {} -> {}个，{}/{}", take.getDevice().getDeviceId(), channelList.size(), catalogDataCatch.size(take.getDevice().getDeviceId(), sn), sumNum);
+                        log.debug("[收到通道]设备: {} -> {}个，{}/{}", take.getDevice().getDeviceId(), channelList.size(), catalogDataCatch.size(take.getDevice().getDeviceId(), sn), sumNum);
                     }
                 }
             } catch (Exception e) {

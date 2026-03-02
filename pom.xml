@@ -414,7 +414,7 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}-${project.version}-${maven.build.timestamp}</finalName>
+        <finalName>${project.artifactId}-spw</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

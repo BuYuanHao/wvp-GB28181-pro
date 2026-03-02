@@ -2,6 +2,7 @@ package com.genersoft.iot.vmp.gb28181.service;
 
 import com.genersoft.iot.vmp.common.enums.DeviceControlType;
 import com.genersoft.iot.vmp.gb28181.bean.*;
+import com.genersoft.iot.vmp.gb28181.controller.bean.ChannelVo1;
 import com.genersoft.iot.vmp.service.bean.ErrorCallback;
 import com.genersoft.iot.vmp.vmanager.bean.ResourceBaseInfo;
 import com.genersoft.iot.vmp.web.gb28181.dto.DeviceChannelExtend;
@@ -96,4 +97,5 @@ public interface IDeviceChannelService {
 
     void queryRecordInfo(CommonGBChannel channel, String startTime, String endTime, ErrorCallback<RecordInfo> object);
 
+    PageInfo<ChannelVo1> queryChannelsOld(String deviceId, String query, Boolean channelType, Boolean online, Object o, int page, int count);
 }
