@@ -152,7 +152,9 @@ public class CatalogResponseMessageHandler extends SIPRequestProcessorParent imp
                             if (channel.getParentId() != null && channel.getParentId().equals(sipConfig.getId())) {
                                 channel.setParentId(null);
                             }
-                            channel.setParentId(channel.getParentId().replace(take.getDevice().getDeviceId()+"/",""));
+                            if(channel.getParentId() != null){
+                                channel.setParentId(channel.getParentId().replace(take.getDevice().getDeviceId()+"/",""));
+                            }
                             // 解析通道类型
                             if (channel.getDeviceId().length() <= 8) {
                                 // 行政区划
