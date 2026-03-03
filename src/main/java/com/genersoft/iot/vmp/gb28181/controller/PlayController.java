@@ -92,7 +92,9 @@ public class PlayController {
 		Assert.notNull(device, "设备不存在");
 		DeviceChannel channel = deviceChannelService.getOne(deviceId, channelId);
 		Assert.notNull(channel, "通道不存在");
-
+		if(channel.getParental() == 1){
+			Assert.notNull(null, "无法点播目录");
+		}
 		DeferredResult<WVPResult<StreamContent>> result = new DeferredResult<>(userSetting.getPlayTimeout().longValue());
 
 		result.onTimeout(()->{

@@ -7,6 +7,7 @@ import com.genersoft.iot.vmp.storager.IRedisCatchStorage;
 import com.genersoft.iot.vmp.utils.SystemInfoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +25,15 @@ public class RefreshDevice {
     private IDeviceService iDeviceService;
     @Autowired
     private DeviceMapper deviceMapper;
+    @Value("${refresh.flag}")
+    private boolean flag;
 
     @Scheduled(cron="0 0/2 * * * ?")   //每1秒执行一次
     public void execute(){
         try {
+            if( !flag){
+                return;
+            }
             Device device = deviceMapper.getDeviceByDeviceId("32081200002000000099");
             iDeviceService.sync(device);
             log.info("刷新通道成功");
